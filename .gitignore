@@ -1,0 +1,28 @@
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Built application files
+*.apk
+*.ap_
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+
+# Log Files
+*.log
+
+.idea/
+.gradle/
+/local.properties
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
