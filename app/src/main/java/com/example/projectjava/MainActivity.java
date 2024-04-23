@@ -1,12 +1,12 @@
 package com.example.projectjava;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.hardware.SensorEventListener;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.projectjava.running.RunActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +33,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, JumpActivity.class));
+            }
+        });
+
+        findViewById(R.id.btnLogWorkout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, LogWorkoutActivity.class));
+            }
+        });
+
+        findViewById(R.id.btnRun).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, RunActivity.class));
             }
         });
     }

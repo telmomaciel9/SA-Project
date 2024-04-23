@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">ProjectJava</string>
+    <string name="app_name">SportsApp</string>
+    <string-array name="run_distances">
+        <item>500</item>
+        <item>1000</item>
+        <item>2000</item>
+        <item>5000</item>
+    </string-array>
 </resources>
