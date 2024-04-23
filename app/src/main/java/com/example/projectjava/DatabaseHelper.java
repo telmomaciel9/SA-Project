@@ -1,105 +1,63 @@
 package com.example.projectjava;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+    private Context context;
+    private static final String DATABASE_NAME = "FitTracker.db";
+    private static final int DATABASE_VERSION = 53;
 
-    // Database Info
-    private static final String DATABASE_NAME = "athleteTracker.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final String TABLE_WORKOUT = "workout";
+    private static final String WORKOUT_ID = "id";
+    private static final String WORKOUT_START_DATE = "startDate";
+    private static final String WORKOUT_END_DATE = "endDate";
+    private static final String WORKOUT_TYPE = "type";
+    private static final String WORKOUT_NOTES = "notes";
 
-    // Table Names
-    private static final String TABLE_WORKOUTS = "workouts";
-    private static final String TABLE_EXERCISES = "exercises";
-
-    // Workout Table Columns
-    private static final String KEY_WORKOUT_ID = "id";
-    private static final String KEY_WORKOUT_DATE = "date";
-    private static final String KEY_WORKOUT_TYPE = "type";
-    private static final String KEY_WORKOUT_NOTES = "notes";
-
-    // Exercise Table Columns
-    private static final String KEY_EXERCISE_ID = "id";
-    private static final String KEY_EXERCISE_WORKOUT_ID = "workoutId";
-    private static final String KEY_EXERCISE_NAME = "name";
-    private static final String KEY_EXERCISE_SETS = "sets";
-    private static final String KEY_EXERCISE_REPS = "reps";
-    private static final String KEY_EXERCISE_WEIGHT = "weight";
-
-    public DatabaseHelper(Context context) {
+    public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_WORKOUTS_TABLE = "CREATE TABLE " + TABLE_WORKOUTS +
-                "(" +
-                KEY_WORKOUT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + // Define a primary key
-                KEY_WORKOUT_DATE + " TEXT," +
-                KEY_WORKOUT_TYPE + " TEXT," +
-                KEY_WORKOUT_NOTES + " TEXT" +
-                ")";
-
-        String CREATE_EXERCISES_TABLE = "CREATE TABLE " + TABLE_EXERCISES +
-                "(" +
-                KEY_EXERCISE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                KEY_EXERCISE_WORKOUT_ID + " INTEGER REFERENCES " + TABLE_WORKOUTS + "," + // Foreign Key
-                KEY_EXERCISE_NAME + " TEXT," +
-                KEY_EXERCISE_SETS + " INTEGER," +
-                KEY_EXERCISE_REPS + " INTEGER," +
-                KEY_EXERCISE_WEIGHT + " REAL" + // Use REAL for floating point values
-                ")";
-
-        db.execSQL(CREATE_WORKOUTS_TABLE);
-        db.execSQL(CREATE_EXERCISES_TABLE);
+        String query = "CREATE TABLE " + TABLE_WORKOUT + " (" + WORKOUT_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        WORKOUT_START_DATE + " TEXT, " + WORKOUT_END_DATE + " TEXT, " + WORKOUT_TYPE + " TEXT, " + WORKOUT_NOTES + " TEXT);";
+        db.execSQL(query);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // This database is only a cache for workout data, so its upgrade policy is
-        // to simply discard the data and start over
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_WORKOUTS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXERCISES);
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_WORKOUT);
         onCreate(db);
     }
 
-    public long addWorkout(String date, String type, String notes) {
+    public long addWorkout(Workout w){
         SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
 
-        ContentValues values = new ContentValues();
-        values.put(KEY_WORKOUT_DATE, date);
-        values.put(KEY_WORKOUT_TYPE, type);
-        values.put(KEY_WORKOUT_NOTES, notes);
+        // SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
+        cv.put(WORKOUT_START_DATE, "teste");
+        cv.put(WORKOUT_START_DATE, "teste");
+        cv.put(WORKOUT_TYPE, w.getType());
+        cv.put(WORKOUT_NOTES, w.getNotes());
 
-        // Inserting Row
-        long workoutId = db.insert(TABLE_WORKOUTS, null, values);
-        db.close(); // Closing database connection
-        return workoutId;
+        long id = db.insert(TABLE_WORKOUT, null, cv);
+
+        if (id == -1){
+            Toast.makeText(context, "Failed to insert the Workout.", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(context, "Successfully inserted the Workout!", Toast.LENGTH_SHORT).show();
+        }
+        db.close();
+        return 1;
     }
-
-    // Method to add exercise linked to a workout
-    public long addExercise(long workoutId, String name, int sets, int reps, float weight) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(KEY_EXERCISE_WORKOUT_ID, workoutId);
-        values.put(KEY_EXERCISE_NAME, name);
-        values.put(KEY_EXERCISE_SETS, sets);
-        values.put(KEY_EXERCISE_REPS, reps);
-        values.put(KEY_EXERCISE_WEIGHT, weight);
-
-        // Inserting Row
-        long exerciseId = db.insert(TABLE_EXERCISES, null, values);
-        db.close(); // Closing database connection
-        return exerciseId;
-    }
-
-    // Additional CRUD operations go here (querying workouts, updating, and deleting)
 }

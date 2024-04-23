@@ -44,6 +44,7 @@ public class LogWorkoutActivity extends AppCompatActivity {
         }
 
         // Save to database
+        /*
         long id = databaseHelper.addWorkout(date, type, notes);
 
         if (id != -1) {
@@ -52,5 +53,6 @@ public class LogWorkoutActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Failed to save workout", Toast.LENGTH_SHORT).show();
         }
+        */
     }
 }
