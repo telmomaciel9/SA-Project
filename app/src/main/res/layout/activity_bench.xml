@@ -4,13 +4,33 @@
     android:padding="16dp">
 
     <TextView
+        android:id="@+id/textViewTimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="00:00:00"
+        android:gravity="center"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"/>
+
+    <EditText
+        android:id="@+id/editTextWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTimer"
+        android:layout_centerHorizontal="true"
+        android:hint="Put the exercise weight in Kg here!"
+        android:inputType="text" />
+
+    <TextView
         android:id="@+id/tvMaxAcceleration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Max Acceleration: 0"
+        android:layout_below="@id/editTextWeight"
         android:textSize="22sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"/>
+        android:layout_marginTop="20dp"/>
 
     <Button
         android:id="@+id/btnStartBench"

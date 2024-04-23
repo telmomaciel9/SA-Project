@@ -2,22 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
 
     <TextView
-        android:id="@+id/textViewRunStats"
+        android:id="@+id/textViewBenchStats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="16dp"
         android:textSize="18sp" />
 
-    <fragment
-        android:id="@+id/mapRunResults"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+    <EditText
+        android:id="@+id/editTextReps"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:hint="Put the number of repetitions here!" />
 
     <Button
         android:id="@+id/btnGoBack"

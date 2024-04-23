@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 // google maps
+import com.example.projectjava.CardioActivity;
 import com.example.projectjava.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -62,6 +63,14 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         buttonFinishRun = findViewById(R.id.buttonFinishRun);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         initializeActivity();
+
+        // Set the button
+        findViewById(R.id.btnGoBack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RunActivity.this, CardioActivity.class));
+            }
+        });
     }
 
     private void initializeActivity() {

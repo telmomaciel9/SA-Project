@@ -27,6 +27,20 @@
         android:text="Finish"
         android:layout_marginTop="16dp" />
     -->
+
+    <Button
+        android:id="@+id/btnCardio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cardio Exercises" />
+
+    <Button
+        android:id="@+id/btnForca"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Strength Exercises" />
+
+    <!--O resto é lixo
     <Button
         android:id="@+id/btnBench"
         android:layout_width="wrap_content"
@@ -56,5 +70,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Running Workout" />
-
+    -->
 </LinearLayout>
