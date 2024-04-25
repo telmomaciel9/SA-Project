@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class LogWorkoutActivity extends AppCompatActivity {
     private EditText editTextDate, editTextType, editTextNotes;
     private Button btnSaveWorkout;
-    private DatabaseHelper databaseHelper; // You need to create this class to handle database operations
+    private DatabaseHelper databaseHelper; // need to create this class to handle database operations
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

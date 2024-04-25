@@ -47,7 +47,7 @@ public class BeginningActivity extends AppCompatActivity {
                 long id = -1;
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                     Workout w = new Workout(LocalDateTime.now());
-                    id = db.addWorkout(w);
+                    //id = db.addWorkout(w);
                 }
 
                 makeNotification(id);
@@ -78,7 +78,12 @@ public class BeginningActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), ManageWorkoutActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-        PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        // Updated PendingIntent creation with FLAG_IMMUTABLE
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            flags |= PendingIntent.FLAG_IMMUTABLE;  // Use FLAG_MUTABLE if necessary
+        }
+        PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0, intent, flags);
         builder.setContentIntent(pi);
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 

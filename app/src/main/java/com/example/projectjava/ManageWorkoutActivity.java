@@ -24,6 +24,9 @@ public class ManageWorkoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_workout);
+        textViewTimer = findViewById(R.id.textViewTimer);
+        editTextNotes = findViewById(R.id.editTextNotes);
+        editTextType = findViewById(R.id.editTextType);
 
         findViewById(R.id.btnSaveWorkout).setOnClickListener(new View.OnClickListener() {
             @Override

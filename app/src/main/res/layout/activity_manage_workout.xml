@@ -14,12 +14,14 @@
         android:padding="30dp"/>
 
     <EditText
+        android:id="@+id/editTextType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="What was the workout type?"
         android:padding="30dp"/>
 
     <EditText
+        android:id="@+id/editTextNotes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Add the workout notes here."
