@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.projectjava.database.DatabaseHelper;
+
 public class LogWorkoutActivity extends AppCompatActivity {
     private EditText editTextDate, editTextType, editTextNotes;
     private Button btnSaveWorkout;
@@ -22,8 +24,6 @@ public class LogWorkoutActivity extends AppCompatActivity {
         editTextType = findViewById(R.id.editTextType);
         editTextNotes = findViewById(R.id.editTextNotes);
         btnSaveWorkout = findViewById(R.id.btnSaveWorkout);
-
-        databaseHelper = new DatabaseHelper(this); // Initialize your database helper here
 
         btnSaveWorkout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -20,5 +20,13 @@ public class ForcaActivity extends AppCompatActivity {
                 startActivity(new Intent(ForcaActivity.this, BenchActivity.class));
             }
         });
+
+        // set the behaviour for when the back button is pressed
+        findViewById(R.id.btnGoBack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish(); // close current activity and return to previous state
+            }
+        });
     }
 }

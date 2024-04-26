@@ -62,15 +62,14 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         buttonStartRun = findViewById(R.id.buttonStartRun);
         buttonFinishRun = findViewById(R.id.buttonFinishRun);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        initializeActivity();
-
-        // Set the button
         findViewById(R.id.btnGoBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RunActivity.this, CardioActivity.class));
+                finish(); // close current activity and return to previous state (CardioActivity)
             }
         });
+
+        initializeActivity();
     }
 
     private void initializeActivity() {
@@ -233,7 +232,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         intent.putParcelableArrayListExtra("pathPoints", points);
         intent.putExtra("maxVelocity", maxVelocity);
         intent.putExtra("averageVelocity", averageVelocity);
-        intent.putExtra("distanceRan", String.format(Locale.getDefault(), "%.2f m", totalDistance));
+        intent.putExtra("distanceRan", totalDistance);
         startActivity(intent);
     }
 

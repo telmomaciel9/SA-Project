@@ -10,10 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.projectjava.running.RunActivity;
-import com.example.projectjava.running.RunResultsActivity;
-
-import java.util.Locale;
+import com.example.projectjava.database.DatabaseHelper;
 
 public class ManageWorkoutActivity extends AppCompatActivity {
     private TextView textViewTimer;
@@ -27,6 +24,7 @@ public class ManageWorkoutActivity extends AppCompatActivity {
         textViewTimer = findViewById(R.id.textViewTimer);
         editTextNotes = findViewById(R.id.editTextNotes);
         editTextType = findViewById(R.id.editTextType);
+        DatabaseHelper db = DatabaseHelper.getInstance(this);
 
         findViewById(R.id.btnSaveWorkout).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,6 +33,8 @@ public class ManageWorkoutActivity extends AppCompatActivity {
                 mNotificationManager.cancel(0);
                 String notes = editTextNotes.getText().toString();
                 String type = editTextType.getText().toString();
+
+                db.finishWorkout(type, notes);
 
                 startActivity(new Intent(ManageWorkoutActivity.this, BeginningActivity.class));
             }

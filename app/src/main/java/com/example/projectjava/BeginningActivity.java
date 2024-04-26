@@ -1,7 +1,6 @@
 package com.example.projectjava;
 
 import android.Manifest;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,17 +10,17 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.provider.ContactsContract;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.projectjava.database.DatabaseHelper;
+
 import java.time.LocalDateTime;
-import java.util.Locale;
 
 public class BeginningActivity extends AppCompatActivity {
     private DatabaseHelper db;
@@ -30,8 +29,7 @@ public class BeginningActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beginning);
-
-        this.db = new DatabaseHelper(this);
+        DatabaseHelper dh = DatabaseHelper.getInstance(this);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
             if(ContextCompat.checkSelfPermission(BeginningActivity.this,
@@ -45,10 +43,9 @@ public class BeginningActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 long id = -1;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    Workout w = new Workout(LocalDateTime.now());
-                    //id = db.addWorkout(w);
-                }
+                dh.beginWorkout();
+                //if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                //}
 
                 makeNotification(id);
                 startActivity(new Intent(BeginningActivity.this, MainActivity.class));

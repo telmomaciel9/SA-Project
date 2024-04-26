@@ -1,6 +1,7 @@
 package com.example.projectjava.running;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectjava.R;
+import com.example.projectjava.database.DatabaseHelper;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -24,8 +26,7 @@ public class RunResultsActivity extends AppCompatActivity implements OnMapReadyC
     private GoogleMap mMap;
     private TextView textViewRunStats;
     private ArrayList<LatLng> pathPoints;
-    private float maxVelocity, averageVelocity;
-    private String distanceRan;
+    private float maxVelocity, averageVelocity, distanceRan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +39,16 @@ public class RunResultsActivity extends AppCompatActivity implements OnMapReadyC
         pathPoints = getIntent().getParcelableArrayListExtra("pathPoints");
         maxVelocity = getIntent().getFloatExtra("maxVelocity", 0);
         averageVelocity = getIntent().getFloatExtra("averageVelocity", 0);
-        distanceRan = getIntent().getStringExtra("distanceRan");
+        distanceRan = getIntent().getFloatExtra("distanceRan", 0);
+
+        // the exercise has finished, so we add it to the workout session
+        RunningExerciseData ed = new RunningExerciseData(distanceRan, averageVelocity, maxVelocity);
+        DatabaseHelper dh = DatabaseHelper.getInstance(this);
+        RunningExerciseData.createTable(dh);
+        dh.addExerciseData(ed);
 
         // Set the stats text
-        String stats = String.format(Locale.getDefault(), "Distance Ran: %s\nAverage Velocity: %.2f m/s\nMax Velocity: %.2f m/s",
+        String stats = String.format(Locale.getDefault(), "Distance Ran: %.2f m\nAverage Velocity: %.2f m/s\nMax Velocity: %.2f m/s",
                 distanceRan, averageVelocity, maxVelocity);
         textViewRunStats.setText(stats);
 
