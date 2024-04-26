@@ -31,7 +31,6 @@
 
         <activity android:name=".bench.BenchActivity" />
         <activity android:name=".SprintActivity" />
-        <activity android:name=".LogWorkoutActivity" />
         <activity android:name=".running.RunActivity" />
         <activity android:name=".running.RunResultsActivity" />
         <activity android:name=".ForcaActivity"/>
