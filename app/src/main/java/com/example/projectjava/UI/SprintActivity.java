@@ -1,4 +1,4 @@
-package com.example.projectjava;
+package com.example.projectjava.UI;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.example.projectjava.R;
 
 public class SprintActivity extends Activity {
     private LocationManager locationManager;

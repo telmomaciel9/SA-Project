@@ -1,4 +1,4 @@
-package com.example.projectjava.bench;
+package com.example.projectjava.UI.bench;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,10 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.projectjava.R;
-import com.example.projectjava.running.RunActivity;
-import com.example.projectjava.running.RunResultsActivity;
-
-import java.util.Locale;
 
 public class BenchActivity extends Activity implements SensorEventListener {
     // Timer
@@ -60,14 +56,6 @@ public class BenchActivity extends Activity implements SensorEventListener {
                 tvMaxAcceleration.setText("Max Acceleration: 0");
                 sensorManager.registerListener(BenchActivity.this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
                 startTimer();
-            }
-        });
-
-        // set the behaviour for when the back button is pressed
-        findViewById(R.id.btnGoBack).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish(); // close current activity and return to previous state
             }
         });
 

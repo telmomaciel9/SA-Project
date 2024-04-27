@@ -1,4 +1,4 @@
-package com.example.projectjava;
+package com.example.projectjava.UI;
 
 import android.app.NotificationManager;
 import android.content.Context;
@@ -10,18 +10,17 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.projectjava.database.DatabaseHelper;
+import com.example.projectjava.R;
+import com.example.projectjava.data.DatabaseHelper;
 
-public class ManageWorkoutActivity extends AppCompatActivity {
-    private TextView textViewTimer;
+public class EndWorkoutActivity extends AppCompatActivity {
     private EditText editTextNotes;
     private EditText editTextType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_workout);
-        textViewTimer = findViewById(R.id.textViewTimer);
+        setContentView(R.layout.activity_end_workout);
         editTextNotes = findViewById(R.id.editTextNotes);
         editTextType = findViewById(R.id.editTextType);
         DatabaseHelper db = DatabaseHelper.getInstance(this);
@@ -36,7 +35,18 @@ public class ManageWorkoutActivity extends AppCompatActivity {
 
                 db.finishWorkout(type, notes);
 
-                startActivity(new Intent(ManageWorkoutActivity.this, BeginningActivity.class));
+                startActivity(new Intent(EndWorkoutActivity.this, BeginningActivity.class));
+            }
+        });
+
+        // Cancel workout by not saving it
+        findViewById(R.id.btnCancelWorkout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.cancel(0);
+
+                startActivity(new Intent(EndWorkoutActivity.this, BeginningActivity.class));
             }
         });
     }

@@ -1,16 +1,19 @@
-package com.example.projectjava;
+package com.example.projectjava.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.projectjava.database.DatabaseHelper;
+
+import com.example.projectjava.R;
+import com.example.projectjava.data.DatabaseHelper;
+import com.example.projectjava.data.Workout;
 
 import java.util.ArrayList;
 
-public class WorkoutHistoryActivity extends AppCompatActivity {
-
+public class WorkoutHistoryActivity extends AppCompatActivity implements WorkoutsAdapter.OnItemClickListener {
     private RecyclerView recyclerView;
     private WorkoutsAdapter adapter;
     private DatabaseHelper databaseHelper;
@@ -26,7 +29,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         databaseHelper = DatabaseHelper.getInstance(this);
         ArrayList<Workout> workouts = databaseHelper.getAllWorkouts();
 
-        adapter = new WorkoutsAdapter(workouts);
+        adapter = new WorkoutsAdapter(workouts, this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -41,4 +44,11 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
         adapter.updateData(workouts);  // Update the adapter's data
     }
 
+    // Um workout é clickado
+    @Override
+    public void onItemClick(Workout workout) {
+        Intent intent = new Intent(WorkoutHistoryActivity.this, WorkoutDetailsActivity.class);
+        intent.putExtra("id", workout.getId());
+        startActivity(intent);
+    }
 }

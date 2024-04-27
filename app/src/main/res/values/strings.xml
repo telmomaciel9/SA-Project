@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SportsApp</string>
+    <string name="app_name">FitTracker</string>
     <string-array name="run_distances">
         <item>500</item>
         <item>1000</item>

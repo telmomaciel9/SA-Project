@@ -1,4 +1,4 @@
-package com.example.projectjava.database;
+package com.example.projectjava.data;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,9 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.projectjava.Workout;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -100,4 +106,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return workouts;
     }
 
+    public Workout getWorkout(long id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + workout_table_name, null);
+        if (cursor.moveToFirst()) {
+            do {
+                long wid = cursor.getInt(cursor.getColumnIndex("id"));
+                if(id == wid){
+                    return new Workout(wid, cursor.getString(cursor.getColumnIndex("type")), cursor.getString(cursor.getColumnIndex("notes")));
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return null;
+    }
+
+    public List<ExerciseData> getWorkoutExercises(long workoutId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<ExerciseData> exercises = new ArrayList<>();
+        List<String> exercises_tables = new ArrayList<>(Arrays.asList("bench", "running"));
+        for(String table: exercises_tables){
+            Cursor cursor = db.rawQuery("SELECT * FROM " + table, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    long wid = cursor.getInt(cursor.getColumnIndex("workout_id"));
+                    if(workoutId == wid){
+                        if(table.equals("bench")){
+                            exercises.add(new BenchExerciseData(cursor.getFloat(cursor.getColumnIndex("weight")),
+                                                                cursor.getFloat(cursor.getColumnIndex("max_acceleration")),
+                                                                cursor.getInt(cursor.getColumnIndex("reps"))));
+                        }else if(table.equals("running")){
+                            exercises.add(new RunningExerciseData(cursor.getFloat(cursor.getColumnIndex("distance")),
+                                    cursor.getFloat(cursor.getColumnIndex("avg_velocity")),
+                                    cursor.getFloat(cursor.getColumnIndex("max_velocity"))));
+                        }
+                    }
+                } while (cursor.moveToNext());
+            }
+        }
+        return exercises;
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.projectjava;
+package com.example.projectjava.UI;
 
 import android.Manifest;
 import android.app.NotificationChannel;
@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,9 +17,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.projectjava.database.DatabaseHelper;
-
-import java.time.LocalDateTime;
+import com.example.projectjava.R;
+import com.example.projectjava.data.DatabaseHelper;
 
 public class BeginningActivity extends AppCompatActivity {
     private DatabaseHelper db;
@@ -42,12 +40,10 @@ public class BeginningActivity extends AppCompatActivity {
         findViewById(R.id.begin_workout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                long id = -1;
                 dh.beginWorkout();
                 //if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 //}
-
-                makeNotification(id);
+                makeNotification();
                 startActivity(new Intent(BeginningActivity.this, MainActivity.class));
             }
         });
@@ -60,19 +56,19 @@ public class BeginningActivity extends AppCompatActivity {
         });
     }
 
-    public void makeNotification(long workoutID){
+    public void makeNotification(){
         String channelID = "CHANNEL_ID_NOTIFICATION";
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelID);
 
         builder.setSmallIcon(R.drawable.ic_notificaitons)
                 .setUsesChronometer(true)
-                .setContentTitle("Workout active" + workoutID + ".")
+                .setContentTitle("Workout is active.")
                 .setContentText("Give it your best!")
                 .setAutoCancel(false)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setOngoing(true);  // Set as ongoing notification
 
-        Intent intent = new Intent(getApplicationContext(), ManageWorkoutActivity.class);
+        Intent intent = new Intent(getApplicationContext(), EndWorkoutActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         // Updated PendingIntent creation with FLAG_IMMUTABLE

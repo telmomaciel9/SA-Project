@@ -1,4 +1,4 @@
-package com.example.projectjava;
+package com.example.projectjava.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,18 +6,19 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.projectjava.running.RunActivity;
+import com.example.projectjava.R;
+import com.example.projectjava.UI.bench.BenchActivity;
 
-public class CardioActivity extends AppCompatActivity {
+public class ForcaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cardio);
+        setContentView(R.layout.activity_forca);
 
-        findViewById(R.id.btnRun).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnBench).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CardioActivity.this, RunActivity.class));
+                startActivity(new Intent(ForcaActivity.this, BenchActivity.class));
             }
         });
 
@@ -30,4 +31,3 @@ public class CardioActivity extends AppCompatActivity {
         });
     }
 }
-

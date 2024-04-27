@@ -1,10 +1,10 @@
-package com.example.projectjava.running;
+package com.example.projectjava.data;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.projectjava.database.DatabaseHelper;
-import com.example.projectjava.database.ExerciseData;
+import com.example.projectjava.data.DatabaseHelper;
+import com.example.projectjava.data.ExerciseData;
 
 public class RunningExerciseData extends ExerciseData {
     public static final String table_name = "running";
@@ -12,6 +12,7 @@ public class RunningExerciseData extends ExerciseData {
     private final float averageVelocity;
     private final float maxVelocity;
     public RunningExerciseData(float distanceRan, float averageVelocity, float maxVelocity) {
+        super("Running");
         this.distanceRan = distanceRan;
         this.averageVelocity = averageVelocity;
         this.maxVelocity = maxVelocity;
@@ -41,5 +42,4 @@ public class RunningExerciseData extends ExerciseData {
                 + "FOREIGN KEY(workout_id) REFERENCES workouts(id)"
                 + ");");
     }
-
 }

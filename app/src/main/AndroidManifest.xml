@@ -18,8 +18,8 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
+        android:icon="@mipmap/icon"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectJava"
@@ -29,16 +29,18 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB4OADpyJ_lvjTWfOhnNXHe5NZGIrQUXW8" />
 
-        <activity android:name=".bench.BenchActivity" />
-        <activity android:name=".SprintActivity" />
-        <activity android:name=".running.RunActivity" />
-        <activity android:name=".running.RunResultsActivity" />
-        <activity android:name=".ForcaActivity"/>
-        <activity android:name=".CardioActivity"/>
-        <activity android:name=".ManageWorkoutActivity"/>
-        <activity android:name=".WorkoutHistoryActivity"/>
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".BeginningActivity"
+        <activity android:name=".UI.bench.BenchActivity" />
+        <activity android:name=".UI.bench.BenchResultsActivity"/>
+        <activity android:name=".UI.SprintActivity" />
+        <activity android:name=".UI.running.RunActivity" />
+        <activity android:name=".UI.running.RunResultsActivity" />
+        <activity android:name=".UI.ForcaActivity"/>
+        <activity android:name=".UI.CardioActivity"/>
+        <activity android:name=".UI.EndWorkoutActivity"/>
+        <activity android:name=".UI.WorkoutDetailsActivity"/>
+        <activity android:name=".UI.WorkoutHistoryActivity"/>
+        <activity android:name=".UI.MainActivity"/>
+        <activity android:name=".UI.BeginningActivity"
                   android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

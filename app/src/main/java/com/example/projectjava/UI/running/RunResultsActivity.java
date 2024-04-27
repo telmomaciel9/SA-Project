@@ -1,7 +1,6 @@
-package com.example.projectjava.running;
+package com.example.projectjava.UI.running;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +9,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectjava.R;
-import com.example.projectjava.database.DatabaseHelper;
+import com.example.projectjava.UI.MainActivity;
+import com.example.projectjava.data.DatabaseHelper;
+import com.example.projectjava.data.RunningExerciseData;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -63,7 +64,7 @@ public class RunResultsActivity extends AppCompatActivity implements OnMapReadyC
         findViewById(R.id.btnGoBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RunResultsActivity.this, RunActivity.class));
+                startActivity(new Intent(RunResultsActivity.this, MainActivity.class));
             }
         });
     }

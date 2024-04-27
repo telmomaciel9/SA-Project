@@ -1,4 +1,4 @@
-package com.example.projectjava.running;
+package com.example.projectjava.UI.running;
 
 import android.Manifest;
 import android.content.Context;
@@ -21,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 // google maps
-import com.example.projectjava.CardioActivity;
 import com.example.projectjava.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,7 +29,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class RunActivity extends AppCompatActivity implements OnMapReadyCallback {
     private Spinner spinnerRunDistance;
@@ -62,12 +60,6 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         buttonStartRun = findViewById(R.id.buttonStartRun);
         buttonFinishRun = findViewById(R.id.buttonFinishRun);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        findViewById(R.id.btnGoBack).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish(); // close current activity and return to previous state (CardioActivity)
-            }
-        });
 
         initializeActivity();
     }
