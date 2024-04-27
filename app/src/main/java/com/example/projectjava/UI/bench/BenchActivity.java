@@ -29,17 +29,12 @@ public class BenchActivity extends Activity implements SensorEventListener {
     private TextView tvMaxAcceleration;
     private boolean isRecording = false;
     private float maxAcceleration = 0;
-    // Peso
-    private EditText editTextWeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bench);
 
-        initializeTimer();
-
-        editTextWeight = findViewById(R.id.editTextWeight);
 
         tvMaxAcceleration = findViewById(R.id.tvMaxAcceleration);
         Button btnStart = findViewById(R.id.btnStartBench);
@@ -51,6 +46,7 @@ public class BenchActivity extends Activity implements SensorEventListener {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                initializeTimer();
                 isRecording = true;
                 maxAcceleration = 0; // Reset the max acceleration
                 tvMaxAcceleration.setText("Max Acceleration: 0");
@@ -67,7 +63,6 @@ public class BenchActivity extends Activity implements SensorEventListener {
                 tvMaxAcceleration.setText("Max Acceleration: " + maxAcceleration + " m/s²");
                 Intent intent = new Intent(BenchActivity.this, BenchResultsActivity.class);
                 intent.putExtra("maxAcceleration", maxAcceleration);
-                intent.putExtra("weight", Float.parseFloat(editTextWeight.getText().toString()));
                 startActivity(intent);
             }
         });
@@ -123,7 +118,7 @@ public class BenchActivity extends Activity implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Do something here if sensor accuracy changes.
+        // Sensor accuracy changes.
     }
 
     @Override

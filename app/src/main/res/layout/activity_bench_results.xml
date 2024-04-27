@@ -15,15 +15,30 @@
 
     <EditText
         android:id="@+id/editTextReps"
+        android:inputType="number"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:hint="Put the number of repetitions here!" />
 
+    <EditText
+        android:id="@+id/editTextWeight"
+        android:inputType="numberDecimal"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:hint="Put the weight here!" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save exercise!" />
+
     <Button
         android:id="@+id/btnGoBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Go back to the exercises!"/>
+        android:text="Go back to the exercises!" />
 
 </LinearLayout>
