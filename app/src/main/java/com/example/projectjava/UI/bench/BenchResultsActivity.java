@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectjava.R;
 import com.example.projectjava.UI.MainActivity;
+import com.example.projectjava.UI.running.RunResultsActivity;
 import com.example.projectjava.data.BenchExerciseData;
 import com.example.projectjava.data.DatabaseHelper;
 import com.example.projectjava.data.RunningExerciseData;
@@ -41,7 +42,9 @@ public class BenchResultsActivity extends AppCompatActivity {
                 BenchExerciseData exercise = new BenchExerciseData(weight, maxAcceleration, reps);
                 BenchExerciseData.createTable(dh);
                 dh.addExerciseData(exercise);
-                startActivity(new Intent(BenchResultsActivity.this, MainActivity.class));
+                Intent intent = new Intent(BenchResultsActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // Clears all activities on top of MainActivity
+                startActivity(intent);
             }
         });
     }

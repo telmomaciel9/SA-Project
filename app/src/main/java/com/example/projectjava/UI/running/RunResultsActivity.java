@@ -64,7 +64,9 @@ public class RunResultsActivity extends AppCompatActivity implements OnMapReadyC
         findViewById(R.id.btnGoBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RunResultsActivity.this, MainActivity.class));
+                Intent intent = new Intent(RunResultsActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // Clears all activities on top of MainActivity
+                startActivity(intent);
             }
         });
     }

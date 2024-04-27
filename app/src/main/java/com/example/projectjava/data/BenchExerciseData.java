@@ -19,8 +19,8 @@ public class BenchExerciseData extends ExerciseData{
     public ContentValues getContentValues(long workoutId) {
         ContentValues values = new ContentValues();
         values.put("weight", this.weight);
-        values.put("repetitions", this.repetitions);
-        values.put("maxAcceleration", this.maxAcceleration);
+        values.put("reps", this.repetitions);
+        values.put("max_acceleration", this.maxAcceleration);
         values.put("workout_id", workoutId);
         return values;
     }
