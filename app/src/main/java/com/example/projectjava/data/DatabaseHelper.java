@@ -135,7 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                                                                 cursor.getFloat(cursor.getColumnIndex("max_acceleration")),
                                                                 cursor.getInt(cursor.getColumnIndex("reps"))));
                         }else if(table.equals("ohp")){
-                            exercises.add(new BenchExerciseData(cursor.getFloat(cursor.getColumnIndex("weight")),
+                            exercises.add(new OverheadPressExerciseData(cursor.getFloat(cursor.getColumnIndex("weight")),
                                     cursor.getFloat(cursor.getColumnIndex("max_acceleration")),
                                     cursor.getInt(cursor.getColumnIndex("reps"))));
                         } else if(table.equals("running")){

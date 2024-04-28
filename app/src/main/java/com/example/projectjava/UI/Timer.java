@@ -16,12 +16,12 @@ public class Timer {
 
     public Timer(){
         this.isRecording = false;
-        startTime = System.currentTimeMillis();
         handler = new Handler(Looper.getMainLooper());
     }
 
     public void startTimer(TextView timerTextView){
         this.isRecording = true;
+        startTime = System.currentTimeMillis();
         runnable = new Runnable() {
             @Override
             public void run() {
