@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:padding="16dp">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnBench"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Bench Press Exercise" />
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btnBench"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/benchPress" />
+
+        <Button
+            android:id="@+id/btnOverheadPress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/overheadPress" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnGoBack"
@@ -17,7 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="5dp"
-        android:text="Go back" />
+        android:text="@string/goBack"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        android:layout_margin="20dp"/>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

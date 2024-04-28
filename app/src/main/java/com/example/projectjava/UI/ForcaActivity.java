@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectjava.R;
 import com.example.projectjava.UI.bench.BenchActivity;
+import com.example.projectjava.UI.overheadPress.OverheadPressActivity;
 
 public class ForcaActivity extends AppCompatActivity {
     @Override
@@ -19,6 +20,13 @@ public class ForcaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ForcaActivity.this, BenchActivity.class));
+            }
+        });
+
+        findViewById(R.id.btnOverheadPress).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ForcaActivity.this, OverheadPressActivity.class));
             }
         });
 

@@ -20,6 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static DatabaseHelper instance;
     private static String workout_table_name = "workouts";
+    private static List<String> exercises_tables = new ArrayList<>(Arrays.asList("bench", "running", "ohp"));
     private ArrayList<ExerciseData> exerciseDataList;  // Holds exercise data temporarily
 
     private static final String DATABASE_NAME = "app_database.db";
@@ -35,7 +36,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.exerciseDataList = null;
-
     }
 
     @Override
@@ -124,7 +124,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<ExerciseData> getWorkoutExercises(long workoutId){
         SQLiteDatabase db = this.getReadableDatabase();
         List<ExerciseData> exercises = new ArrayList<>();
-        List<String> exercises_tables = new ArrayList<>(Arrays.asList("bench", "running"));
         for(String table: exercises_tables){
             Cursor cursor = db.rawQuery("SELECT * FROM " + table, null);
             if (cursor.moveToFirst()) {
@@ -135,7 +134,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                             exercises.add(new BenchExerciseData(cursor.getFloat(cursor.getColumnIndex("weight")),
                                                                 cursor.getFloat(cursor.getColumnIndex("max_acceleration")),
                                                                 cursor.getInt(cursor.getColumnIndex("reps"))));
-                        }else if(table.equals("running")){
+                        }else if(table.equals("ohp")){
+                            exercises.add(new BenchExerciseData(cursor.getFloat(cursor.getColumnIndex("weight")),
+                                    cursor.getFloat(cursor.getColumnIndex("max_acceleration")),
+                                    cursor.getInt(cursor.getColumnIndex("reps"))));
+                        } else if(table.equals("running")){
                             exercises.add(new RunningExerciseData(cursor.getFloat(cursor.getColumnIndex("distance")),
                                     cursor.getFloat(cursor.getColumnIndex("avg_velocity")),
                                     cursor.getFloat(cursor.getColumnIndex("max_velocity"))));

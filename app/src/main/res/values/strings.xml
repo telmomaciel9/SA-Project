@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">FitTracker</string>
+    <string name="details">Workout details:</string>
+    <string name="history">Workout history:</string>
+    <string name="goBack">Go back</string>
+    <string name="benchPress">Bench Press</string>
+    <string name="overheadPress">Overhead Press</string>
+    <string name="saveEx">Save Exercise</string>
     <string-array name="run_distances">
         <item>500</item>
         <item>1000</item>

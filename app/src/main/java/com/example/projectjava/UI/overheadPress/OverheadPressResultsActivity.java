@@ -1,4 +1,4 @@
-package com.example.projectjava.UI.bench;
+package com.example.projectjava.UI.overheadPress;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,30 +13,29 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectjava.R;
 import com.example.projectjava.UI.MainActivity;
-import com.example.projectjava.UI.running.RunResultsActivity;
-import com.example.projectjava.data.BenchExerciseData;
 import com.example.projectjava.data.DatabaseHelper;
-import com.example.projectjava.data.RunningExerciseData;
+import com.example.projectjava.data.OverheadPressExerciseData;
 
-public class BenchResultsActivity extends AppCompatActivity {
-    private TextView textViewBenchStats;
+public class OverheadPressResultsActivity extends AppCompatActivity {
+    private TextView textViewOHPStats;
     private EditText editTextReps;
     private EditText editTextWeight;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bench_results);
+        setContentView(R.layout.activity_overhead_press_results);
 
         DatabaseHelper dh = DatabaseHelper.getInstance(this);
 
         editTextReps = findViewById(R.id.editTextReps);
         editTextWeight = findViewById(R.id.editTextWeight);
-        textViewBenchStats = findViewById(R.id.textViewBenchStats);
+        textViewOHPStats = findViewById(R.id.textViewOHPStats);
         float maxAcceleration = getIntent().getFloatExtra("maxAcceleration", 0);
 
-        String results = "Bench Press Stat Results:\n" +
-                "Maximum acceleration: " + String.valueOf(maxAcceleration) + "\n";
+        String results = "Overhead Press Stat Results:\n" +
+                "Maximum acceleration: " + maxAcceleration + "\n";
 
-        textViewBenchStats.setText(results);
+        textViewOHPStats.setText(results);
 
         findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,6 +43,7 @@ public class BenchResultsActivity extends AppCompatActivity {
                 saveData(maxAcceleration);
             }
         });
+
         findViewById(R.id.btnGoBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,14 +57,14 @@ public class BenchResultsActivity extends AppCompatActivity {
             int reps = Integer.parseInt(editTextReps.getText().toString().trim());
             float weight = Float.parseFloat(editTextWeight.getText().toString().trim());
 
-            BenchExerciseData exercise = new BenchExerciseData(weight, maxAcceleration, reps);
+            OverheadPressExerciseData exercise = new OverheadPressExerciseData(weight, maxAcceleration, reps);
             DatabaseHelper dh = DatabaseHelper.getInstance(this);
-            BenchExerciseData.createTable(dh);
+            OverheadPressExerciseData.createTable(dh);
             dh.addExerciseData(exercise);
 
             closeActivity();
         } catch (NumberFormatException e) {
-            Toast.makeText(BenchResultsActivity.this, "Please enter valid numbers for reps and weight.", Toast.LENGTH_LONG).show();
+            Toast.makeText(OverheadPressResultsActivity.this, "Please enter valid numbers for reps and weight.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -90,7 +90,7 @@ public class BenchResultsActivity extends AppCompatActivity {
     }
 
     private void closeActivity() {
-        Intent intent = new Intent(BenchResultsActivity.this, MainActivity.class);
+        Intent intent = new Intent(OverheadPressResultsActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

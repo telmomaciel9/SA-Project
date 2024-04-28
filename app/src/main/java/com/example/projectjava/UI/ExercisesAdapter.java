@@ -32,7 +32,7 @@ public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.Exer
     @Override
     public void onBindViewHolder(@NonNull ExercisesViewHolder holder, int position) {
         ExerciseData exerciseData = exercises.get(position);
-        holder.bind(exerciseData);
+        holder.bind(exerciseData, position);
     }
 
     @Override
@@ -56,8 +56,8 @@ public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.Exer
             this.textViewExerciseName = itemView.findViewById(R.id.exerciseName);
         }
 
-        void bind(ExerciseData exercise) {
-            String text = "Exercise: " + exercise.getExerciseName();
+        void bind(ExerciseData exercise, int position) {
+            String text = (position+1) + ". " + exercise.getExerciseName();
             this.textViewExerciseName.setText(text);
         }
     }

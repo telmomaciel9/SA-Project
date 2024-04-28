@@ -31,7 +31,8 @@
 
         <activity android:name=".UI.bench.BenchActivity" />
         <activity android:name=".UI.bench.BenchResultsActivity"/>
-        <activity android:name=".UI.SprintActivity" />
+        <activity android:name=".UI.overheadPress.OverheadPressActivity"/>
+        <activity android:name=".UI.overheadPress.OverheadPressResultsActivity"/>
         <activity android:name=".UI.running.RunActivity" />
         <activity android:name=".UI.running.RunResultsActivity" />
         <activity android:name=".UI.ForcaActivity"/>

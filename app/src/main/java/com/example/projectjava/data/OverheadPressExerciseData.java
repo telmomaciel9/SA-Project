@@ -3,14 +3,14 @@ package com.example.projectjava.data;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
-public class BenchExerciseData extends ExerciseData{
-    private static final String table_name = "bench";
+public class OverheadPressExerciseData extends ExerciseData{
+    private static final String table_name = "ohp";
     private float weight;
     private float maxAcceleration;
     private int repetitions;
 
-    public BenchExerciseData(float w, float ma, int r){
-        super("Bench Press");
+    public OverheadPressExerciseData(float w, float ma, int r){
+        super("Overhead Press");
         this.weight = w;
         this.maxAcceleration = ma;
         this.repetitions = r;

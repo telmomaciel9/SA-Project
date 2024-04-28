@@ -59,7 +59,9 @@ public class RunResultsActivity extends AppCompatActivity implements OnMapReadyC
 
     private void saveData() {
         RunningExerciseData exercise = new RunningExerciseData(distanceRan, averageVelocity, maxVelocity);
-        DatabaseHelper.getInstance(this).addExerciseData(exercise);
+        DatabaseHelper dh = DatabaseHelper.getInstance(this);
+        RunningExerciseData.createTable(dh);
+        dh.addExerciseData(exercise);
         closeActivity();
     }
 

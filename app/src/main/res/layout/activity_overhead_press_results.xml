@@ -5,15 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".UI.bench.BenchResultsActivity">
+    tools:context=".UI.overheadPress.OverheadPressResultsActivity">
 
     <TextView
-        android:id="@+id/textViewBenchStats"
+        android:id="@+id/textViewOHPStats"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:gravity="center"
-        android:text="Bench Press Stat Results:"
+        android:text="Overhead Press Stat Results:"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -24,8 +24,8 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:hint="Number of repetitions"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/textViewBenchStats"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="@id/textViewOHPStats"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
