@@ -5,9 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static String workout_table_name = "workouts";
     private static List<String> exercises_tables = new ArrayList<>(Arrays.asList("bench", "running", "ohp"));
     private ArrayList<ExerciseData> exerciseDataList;  // Holds exercise data temporarily
+    private FirebaseFirestore dbFirebase;
 
     private static final String DATABASE_NAME = "app_database.db";
     private static final int DATABASE_VERSION = 2;
@@ -36,6 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.exerciseDataList = null;
+        this.dbFirebase = FirebaseFirestore.getInstance();
     }
 
     @Override
@@ -188,5 +194,81 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
         return null;
+    }
+    public void fetchAndStoreUserData(String userId) {
+        dbFirebase.collection("Workouts")
+                .whereEqualTo("user_id", userId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Workout workout = new Workout(
+                                    Long.parseLong(document.getId()),
+                                    document.getString("type"),
+                                    document.getString("notes")
+                            );
+
+                            // Fetch exercises for this workout
+                            fetchExercisesForWorkout(workout);
+                        }
+                    } else {
+                        Log.e("DatabaseHelper", "Error getting documents: ", task.getException());
+                    }
+                });
+    }
+
+    private void fetchExercisesForWorkout(Workout workout) {
+        String[] subCollections = {"Running", "BenchPress"};
+
+        for (String collection : subCollections) {
+            dbFirebase.collection("Workouts").document(workout.getId()).collection(collection)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                ExerciseData exerciseData = convertDocumentToExerciseData(document, collection);
+                                workout.addExercise(exerciseData);
+                            }
+                            // After all exercises are fetched, store the workout in the local database
+                            this.storeWorkout(workout);
+                        } else {
+                            Log.e("DatabaseHelper", "Error getting documents: ", task.getException());
+                        }
+                    });
+        }
+    }
+
+    private ExerciseData convertDocumentToExerciseData(QueryDocumentSnapshot document, String collection) {
+        if (collection.equals("Running")) {
+            return new RunningExerciseData(
+                    document.getDouble("distance").floatValue(),
+                    document.getLong("time"),
+                    document.getDouble("average_speed").floatValue()
+            );
+        } else if (collection.equals("BenchPress")) {
+            return new BenchExerciseData(
+                    document.getLong("weight"),
+                    document.getLong("reps"),
+                    document.getLong("sets").intValue()
+            );
+        }
+        return null;
+    }
+
+    public void storeWorkout(Workout workout) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id", workout.getId());
+        values.put("type", workout.getType());
+        values.put("notes", workout.getNotes());
+
+        // Insert the workout
+        db.insert("Workouts", null, values);
+
+        // Now insert the exercises
+        for (ExerciseData exercise : workout.getExercises()) {
+            ContentValues exerciseValues = exercise.getContentValues(workout.getId());
+            db.insert(exercise.getTableName(), null, exerciseValues);
+        }
     }
 }

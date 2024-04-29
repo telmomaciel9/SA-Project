@@ -33,4 +33,8 @@ public class Workout {
         return notes;
     }
     public List<ExerciseData> getExercises(){return this.exercises;}
+
+    public void addExercise(ExerciseData ed) {
+        this.exercises.add(ed);
+    }
 }
