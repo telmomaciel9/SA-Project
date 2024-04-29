@@ -1,44 +1,50 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:padding="16dp">
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bench Press"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewTimer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:text="00:00:00"
         android:gravity="center"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"/>
+        android:text="00:00:00"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        android:layout_marginTop="90dp"/>
 
-    <TextView
-        android:id="@+id/tvMaxAcceleration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Max Acceleration: 0"
-        android:textSize="22sp"
-        android:layout_below="@id/textViewTimer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnStartBench"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start"
-        android:layout_below="@id/tvMaxAcceleration"
-        android:layout_marginTop="24dp"
-        android:layout_centerHorizontal="true"/>
+        <Button
+            android:id="@+id/btnStartBench"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/start" />
 
-    <Button
-        android:id="@+id/btnStopBench"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Stop"
-        android:layout_below="@id/btnStartBench"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true"/>
+        <Button
+            android:id="@+id/btnStopBench"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/stop" />
+    </LinearLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

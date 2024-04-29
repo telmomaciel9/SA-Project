@@ -32,16 +32,18 @@ public class BenchResultsActivity extends AppCompatActivity {
         editTextWeight = findViewById(R.id.editTextWeight);
         textViewBenchStats = findViewById(R.id.textViewBenchStats);
         float maxAcceleration = getIntent().getFloatExtra("maxAcceleration", 0);
+        float meanAcceleration = getIntent().getFloatExtra("meanAcceleration", 0);
 
         String results = "Bench Press Stat Results:\n" +
-                "Maximum acceleration: " + String.valueOf(maxAcceleration) + "\n";
+                "Maximum acceleration: " + maxAcceleration + "\n" +
+                "Mean acceleration: " + meanAcceleration + "\n";
 
         textViewBenchStats.setText(results);
 
         findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveData(maxAcceleration);
+                saveData(maxAcceleration, meanAcceleration);
             }
         });
         findViewById(R.id.btnGoBack).setOnClickListener(new View.OnClickListener() {
@@ -52,12 +54,12 @@ public class BenchResultsActivity extends AppCompatActivity {
         });
     }
 
-    private void saveData(float maxAcceleration) {
+    private void saveData(float maxAcceleration, float meanAcceleration) {
         try {
             int reps = Integer.parseInt(editTextReps.getText().toString().trim());
             float weight = Float.parseFloat(editTextWeight.getText().toString().trim());
 
-            BenchExerciseData exercise = new BenchExerciseData(weight, maxAcceleration, reps);
+            BenchExerciseData exercise = new BenchExerciseData(weight, maxAcceleration, reps, maxAcceleration);
             DatabaseHelper dh = DatabaseHelper.getInstance(this);
             BenchExerciseData.createTable(dh);
             dh.addExerciseData(exercise);

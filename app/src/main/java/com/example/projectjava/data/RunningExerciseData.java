@@ -17,6 +17,12 @@ public class RunningExerciseData extends ExerciseData {
         this.averageVelocity = averageVelocity;
         this.maxVelocity = maxVelocity;
     }
+    public RunningExerciseData(long id, float distanceRan, float averageVelocity, float maxVelocity) {
+        super(id, "Running");
+        this.distanceRan = distanceRan;
+        this.averageVelocity = averageVelocity;
+        this.maxVelocity = maxVelocity;
+    }
 
     public ContentValues getContentValues(long workoutId) {
         ContentValues values = new ContentValues();
@@ -41,5 +47,11 @@ public class RunningExerciseData extends ExerciseData {
                 + "max_velocity REAL,"
                 + "FOREIGN KEY(workout_id) REFERENCES workouts(id)"
                 + ");");
+    }
+
+    public String toString(){
+        return "Distance ran: " + this.distanceRan + "m;\n    " +
+                "Average Velocity: " + this.averageVelocity + "m/s;\n    " +
+                "Maximum Velocity: " + this.maxVelocity + "m/s";
     }
 }

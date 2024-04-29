@@ -38,6 +38,7 @@
         <activity android:name=".UI.ForcaActivity"/>
         <activity android:name=".UI.CardioActivity"/>
         <activity android:name=".UI.EndWorkoutActivity"/>
+        <activity android:name=".UI.ExerciseDetailsActivity"/>
         <activity android:name=".UI.WorkoutDetailsActivity"/>
         <activity android:name=".UI.WorkoutHistoryActivity"/>
         <activity android:name=".UI.MainActivity"/>

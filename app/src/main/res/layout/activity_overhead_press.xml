@@ -1,54 +1,51 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:padding="16dp">
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp">
 
     <TextView
         android:id="@+id/overheadPressTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:text="Overhead Press"
-        android:textSize="27sp"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"/>
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/textViewTimer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewTimer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:text="00:00:00"
         android:gravity="center"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="24dp"
-        android:layout_below="@id/overheadPressTitle"/>
+        android:text="00:00:00"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@+id/overheadPressTitle"
+        android:layout_marginTop="90dp"/>
 
-    <TextView
-        android:id="@+id/textViewMaxAcceleration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Max Acceleration: 0"
-        android:textSize="22sp"
-        android:layout_below="@id/textViewTimer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnStartOHP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start"
-        android:layout_below="@id/textViewMaxAcceleration"
-        android:layout_marginTop="24dp"
-        android:layout_centerHorizontal="true"/>
+        <Button
+            android:id="@+id/btnStartOHP"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/start"
+            android:layout_marginTop="24dp"/>
 
-    <Button
-        android:id="@+id/btnStopOHP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Stop"
-        android:layout_below="@id/btnStartOHP"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true"/>
+        <Button
+            android:id="@+id/btnStopOHP"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/stop"
+            android:layout_marginTop="16dp"/>
 
-</RelativeLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

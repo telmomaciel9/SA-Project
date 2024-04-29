@@ -11,16 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectjava.R;
 import com.example.projectjava.data.ExerciseData;
-import com.example.projectjava.data.Workout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.ExercisesViewHolder>{
     private List<ExerciseData> exercises;
+    private OnItemClickListener listener;
 
-    public ExercisesAdapter(List<ExerciseData> exercises) {
+    public ExercisesAdapter(List<ExerciseData> exercises, OnItemClickListener listener) {
         this.exercises = exercises;
+        this.listener = listener;
     }
 
     @Override
@@ -33,6 +33,13 @@ public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.Exer
     public void onBindViewHolder(@NonNull ExercisesViewHolder holder, int position) {
         ExerciseData exerciseData = exercises.get(position);
         holder.bind(exerciseData, position);
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemClick(exercises.get(position));
+            }
+        });
     }
 
     @Override
@@ -40,24 +47,26 @@ public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.Exer
         return exercises.size();
     }
 
-    public void updateData(ArrayList exercises) {
+    public void updateData(List exercises) {
         this.exercises = exercises;
         notifyDataSetChanged();
     }
 
     public interface OnItemClickListener{
-        void onItemClick(Workout workout);
+        void onItemClick(ExerciseData workout);
     }
 
     static class ExercisesViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewExerciseName;
+        private CardView cardView;
         ExercisesViewHolder(View itemView) {
             super(itemView);
             this.textViewExerciseName = itemView.findViewById(R.id.exerciseName);
+            this.cardView = itemView.findViewById(R.id.main_container);
         }
 
         void bind(ExerciseData exercise, int position) {
-            String text = (position+1) + ". " + exercise.getExerciseName();
+            String text = (position+1) + ". " + exercise.getExerciseName() + "\n    " + exercise;
             this.textViewExerciseName.setText(text);
         }
     }

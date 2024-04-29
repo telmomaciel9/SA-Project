@@ -6,6 +6,11 @@
     <string name="benchPress">Bench Press</string>
     <string name="overheadPress">Overhead Press</string>
     <string name="saveEx">Save Exercise</string>
+    <string name="auth">Authentication</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
     <string-array name="run_distances">
         <item>500</item>
         <item>1000</item>

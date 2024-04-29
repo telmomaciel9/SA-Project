@@ -1,5 +1,6 @@
 package com.example.projectjava.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -13,15 +14,17 @@ import com.example.projectjava.data.DatabaseHelper;
 import com.example.projectjava.data.ExerciseData;
 import com.example.projectjava.data.Workout;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class WorkoutDetailsActivity extends AppCompatActivity{
+public class WorkoutDetailsActivity extends AppCompatActivity implements ExercisesAdapter.OnItemClickListener{
     private DatabaseHelper db;
     private TextView textViewWorkoutId;
     private TextView textViewWorkoutType;
     private TextView textViewWorkoutNotes;
     private RecyclerView exercisesRecyclerView;
     private ExercisesAdapter adapter;
+    private long workoutId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity{
         if(w != null){
             textViewWorkoutId = findViewById(R.id.textViewWorkoutId);
             String id = "Id: " + w.getId();
+            this.workoutId = w.getId();
             textViewWorkoutId.setText(id);
             textViewWorkoutType = findViewById(R.id.textViewWorkoutType);
             String type = "Type: " + w.getType();
@@ -46,7 +50,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity{
                 exercisesRecyclerView = findViewById(R.id.exercisesRecyclerView);
                 exercisesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-                adapter = new ExercisesAdapter(exercises);
+                adapter = new ExercisesAdapter(exercises, this);
                 exercisesRecyclerView.setAdapter(adapter);
             }else{
                 Log.e("WorkoutDetails", "Problema ao retirar exercísios do workout " + w.getId());
@@ -54,6 +58,29 @@ public class WorkoutDetailsActivity extends AppCompatActivity{
         }else{
             Log.e("Base de dados", "ERRO OU IR BUSCAR WORKOUT COM ID " + workoutId);
         }
+    }
+
+    @Override
+    public void onItemClick(ExerciseData exercise) {
+        Intent intent = new Intent(WorkoutDetailsActivity.this, ExerciseDetailsActivity.class);
+        intent.putExtra("exerciseId", exercise.getId());
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshWorkoutList();
+    }
+
+    private void refreshWorkoutList() {
+        List<ExerciseData> exercises = db.getWorkoutExercises(workoutId);  // Fetch all workouts from the database
+        adapter.updateData(exercises);  // Update the adapter's data
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        super.onPointerCaptureChanged(hasCapture);
     }
 }
 

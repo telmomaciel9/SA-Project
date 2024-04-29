@@ -130,16 +130,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 do {
                     long wid = cursor.getInt(cursor.getColumnIndex("workout_id"));
                     if(workoutId == wid){
+                        int id = cursor.getInt(cursor.getColumnIndex("id")); // Get the exercise id
                         if(table.equals("bench")){
-                            exercises.add(new BenchExerciseData(cursor.getFloat(cursor.getColumnIndex("weight")),
+                            exercises.add(new BenchExerciseData(id,
+                                                                cursor.getFloat(cursor.getColumnIndex("weight")),
                                                                 cursor.getFloat(cursor.getColumnIndex("max_acceleration")),
-                                                                cursor.getInt(cursor.getColumnIndex("reps"))));
+                                                                cursor.getInt(cursor.getColumnIndex("reps")),
+                                                                cursor.getFloat(cursor.getColumnIndex("mean_acceleration"))));
                         }else if(table.equals("ohp")){
-                            exercises.add(new OverheadPressExerciseData(cursor.getFloat(cursor.getColumnIndex("weight")),
+                            exercises.add(new OverheadPressExerciseData(id,
+                                    cursor.getFloat(cursor.getColumnIndex("weight")),
                                     cursor.getFloat(cursor.getColumnIndex("max_acceleration")),
-                                    cursor.getInt(cursor.getColumnIndex("reps"))));
+                                    cursor.getInt(cursor.getColumnIndex("reps")),
+                                    cursor.getFloat(cursor.getColumnIndex("mean_acceleration"))));
                         } else if(table.equals("running")){
-                            exercises.add(new RunningExerciseData(cursor.getFloat(cursor.getColumnIndex("distance")),
+                            exercises.add(new RunningExerciseData(id,
+                                    cursor.getFloat(cursor.getColumnIndex("distance")),
                                     cursor.getFloat(cursor.getColumnIndex("avg_velocity")),
                                     cursor.getFloat(cursor.getColumnIndex("max_velocity"))));
                         }
@@ -148,5 +154,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
         return exercises;
+    }
+
+    public ExerciseData getExercise(long exerciseId){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        for(String table: exercises_tables){
+            Cursor cursor = db.rawQuery("SELECT * FROM " + table, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    long id = cursor.getInt(cursor.getColumnIndex("id"));
+                    if(id == exerciseId){
+                        if(table.equals("bench")){
+                            return new BenchExerciseData(id,
+                                    cursor.getFloat(cursor.getColumnIndex("weight")),
+                                    cursor.getFloat(cursor.getColumnIndex("max_acceleration")),
+                                    cursor.getInt(cursor.getColumnIndex("reps")),
+                                    cursor.getFloat(cursor.getColumnIndex("mean_acceleration")));
+                        }else if(table.equals("ohp")){
+                            return new OverheadPressExerciseData(id,
+                                    cursor.getFloat(cursor.getColumnIndex("weight")),
+                                    cursor.getFloat(cursor.getColumnIndex("max_acceleration")),
+                                    cursor.getInt(cursor.getColumnIndex("reps")),
+                                    cursor.getFloat(cursor.getColumnIndex("mean_acceleration")));
+                        } else if(table.equals("running")){
+                            return new RunningExerciseData(id,
+                                    cursor.getFloat(cursor.getColumnIndex("distance")),
+                                    cursor.getFloat(cursor.getColumnIndex("avg_velocity")),
+                                    cursor.getFloat(cursor.getColumnIndex("max_velocity")));
+                        }
+                    }
+                } while (cursor.moveToNext());
+            }
+        }
+        return null;
     }
 }

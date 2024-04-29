@@ -22,9 +22,10 @@ public class OverheadPressActivity extends AppCompatActivity implements SensorEv
     // Sensor de aceleração
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private TextView textViewMaxAcceleration;
-    private boolean isRecording = false;
-    private float maxAcceleration = 0;
+    private float maxAcceleration;
+    private float meanAcceleration;
+    private int nrAccelerations;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,6 @@ public class OverheadPressActivity extends AppCompatActivity implements SensorEv
         timer = new Timer();
         timerTextView = findViewById(R.id.textViewTimer);
 
-        textViewMaxAcceleration = findViewById(R.id.textViewMaxAcceleration);
         Button btnStart = findViewById(R.id.btnStartOHP);
         Button btnStop = findViewById(R.id.btnStopOHP);
 
@@ -45,7 +45,8 @@ public class OverheadPressActivity extends AppCompatActivity implements SensorEv
             @Override
             public void onClick(View v) {
                 maxAcceleration = 0; // Reset the max acceleration
-                textViewMaxAcceleration.setText("Max Acceleration: 0");
+                meanAcceleration = 0;
+                nrAccelerations = 0;
                 sensorManager.registerListener(OverheadPressActivity.this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
                 timer.startTimer(timerTextView);
             }
@@ -54,11 +55,12 @@ public class OverheadPressActivity extends AppCompatActivity implements SensorEv
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                meanAcceleration = meanAcceleration / nrAccelerations;
                 timer.stopTimer();
                 sensorManager.unregisterListener(OverheadPressActivity.this);
-                textViewMaxAcceleration.setText("Max Acceleration: " + maxAcceleration + " m/s²");
                 Intent intent = new Intent(OverheadPressActivity.this, OverheadPressResultsActivity.class);
                 intent.putExtra("maxAcceleration", maxAcceleration);
+                intent.putExtra("meanAcceleration", meanAcceleration);
                 startActivity(intent);
             }
         });
@@ -76,6 +78,8 @@ public class OverheadPressActivity extends AppCompatActivity implements SensorEv
             if (currentAcceleration > maxAcceleration) {
                 maxAcceleration = currentAcceleration;
             }
+            meanAcceleration += currentAcceleration;
+            nrAccelerations++;
         }
     }
 

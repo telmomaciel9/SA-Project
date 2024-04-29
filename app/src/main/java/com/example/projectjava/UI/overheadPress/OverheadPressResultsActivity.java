@@ -31,16 +31,18 @@ public class OverheadPressResultsActivity extends AppCompatActivity {
         editTextWeight = findViewById(R.id.editTextWeight);
         textViewOHPStats = findViewById(R.id.textViewOHPStats);
         float maxAcceleration = getIntent().getFloatExtra("maxAcceleration", 0);
+        float meanAcceleration = getIntent().getFloatExtra("meanAcceleration", 0);
 
         String results = "Overhead Press Stat Results:\n" +
-                "Maximum acceleration: " + maxAcceleration + "\n";
+                "Maximum acceleration: " + maxAcceleration + "\n" +
+                "Mean acceleration: " + meanAcceleration + "\n";
 
         textViewOHPStats.setText(results);
 
         findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveData(maxAcceleration);
+                saveData(maxAcceleration, meanAcceleration);
             }
         });
 
@@ -52,12 +54,12 @@ public class OverheadPressResultsActivity extends AppCompatActivity {
         });
     }
 
-    private void saveData(float maxAcceleration) {
+    private void saveData(float maxAcceleration, float meanAcceleration) {
         try {
             int reps = Integer.parseInt(editTextReps.getText().toString().trim());
             float weight = Float.parseFloat(editTextWeight.getText().toString().trim());
 
-            OverheadPressExerciseData exercise = new OverheadPressExerciseData(weight, maxAcceleration, reps);
+            OverheadPressExerciseData exercise = new OverheadPressExerciseData(weight, maxAcceleration, reps, meanAcceleration);
             DatabaseHelper dh = DatabaseHelper.getInstance(this);
             OverheadPressExerciseData.createTable(dh);
             dh.addExerciseData(exercise);

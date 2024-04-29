@@ -25,8 +25,9 @@ public class BenchActivity extends Activity implements SensorEventListener {
     // Sensor de aceleração
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private TextView tvMaxAcceleration;
-    private float maxAcceleration = 0;
+    private float maxAcceleration;
+    private float meanAcceleration;
+    private int nrAccelerations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,6 @@ public class BenchActivity extends Activity implements SensorEventListener {
         timer = new Timer();
         timerTextView = findViewById(R.id.textViewTimer);
 
-        tvMaxAcceleration = findViewById(R.id.tvMaxAcceleration);
         Button btnStart = findViewById(R.id.btnStartBench);
         Button btnStop = findViewById(R.id.btnStopBench);
 
@@ -46,8 +46,9 @@ public class BenchActivity extends Activity implements SensorEventListener {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                maxAcceleration = 0; // Reset the max acceleration
-                tvMaxAcceleration.setText("Max Acceleration: 0");
+                maxAcceleration = 0;  // Reset the max acceleration
+                meanAcceleration = 0; // Reset mean acceleration
+                nrAccelerations = 0;
                 sensorManager.registerListener(BenchActivity.this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
                 timer.startTimer(timerTextView);
             }
@@ -56,11 +57,12 @@ public class BenchActivity extends Activity implements SensorEventListener {
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                meanAcceleration = meanAcceleration/nrAccelerations;
                 timer.stopTimer();
                 sensorManager.unregisterListener(BenchActivity.this);
-                tvMaxAcceleration.setText("Max Acceleration: " + maxAcceleration + " m/s²");
                 Intent intent = new Intent(BenchActivity.this, BenchResultsActivity.class);
                 intent.putExtra("maxAcceleration", maxAcceleration);
+                intent.putExtra("meanAcceleration", meanAcceleration);
                 startActivity(intent);
             }
         });
@@ -78,6 +80,9 @@ public class BenchActivity extends Activity implements SensorEventListener {
             if (currentAcceleration > maxAcceleration) {
                 maxAcceleration = currentAcceleration;
             }
+
+            meanAcceleration += currentAcceleration;
+            nrAccelerations++;
         }
     }
 
