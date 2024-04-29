@@ -195,6 +195,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return null;
     }
+    /*
     public void fetchAndStoreUserData(String userId) {
         dbFirebase.collection("Workouts")
                 .whereEqualTo("user_id", userId)
@@ -221,7 +222,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String[] subCollections = {"Running", "BenchPress"};
 
         for (String collection : subCollections) {
-            dbFirebase.collection("Workouts").document(workout.getId()).collection(collection)
+            dbFirebase.collection("Workouts").document(String.valueOf(workout.getId())).collection(collection)
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -271,4 +272,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.insert(exercise.getTableName(), null, exerciseValues);
         }
     }
+
+     */
 }
