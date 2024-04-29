@@ -37,12 +37,12 @@ public class AuthenticationActivity extends AppCompatActivity {
         super.onStart();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null) {
-            //reload();
-            System.out.println("Already signed in!");
-            startActivity(new Intent(this, BeginningActivity.class));
-        }
+        //FirebaseUser currentUser = mAuth.getCurrentUser();
+        //if(currentUser != null) {
+        //    //reload();
+        //    System.out.println("Already signed in!");
+        //    startActivity(new Intent(this, BeginningActivity.class));
+        //}
         // not signed in, do nothing
     }
 

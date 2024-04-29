@@ -13,6 +13,7 @@ import com.example.projectjava.UI.BeginningActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -38,9 +39,22 @@ public class LoginActivity extends AppCompatActivity {
 
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                if (task.isSuccessful()) {
-                   // Sign in success, update UI with the signed-in user's information
+                   // Sign in success
                    Log.d("LoginActivity", "signInWithEmail:success");
                    FirebaseUser user = mAuth.getCurrentUser();
+                   FirebaseFirestore db = FirebaseFirestore.getInstance(); // Initialize Firestore instance
+                   if (user != null) {
+                       // Fetch user data from Firestore
+                       db.collection("users").document(user.getUid()).get()
+                               .addOnSuccessListener(documentSnapshot -> {
+                                    if (documentSnapshot.exists()) {
+                                        Log.d("LoginActivity", "User data: " + documentSnapshot.getData().toString());
+                                    } else {
+                                        Log.d("LoginActivity", "No user data found");
+                                    }
+                               })
+                               .addOnFailureListener(e -> Log.w("LoginActivity", "Error fetching user details", e));
+                   }
                    startActivity(new Intent(this, BeginningActivity.class));
                } else {
                    // If sign in fails, display a message to the user.

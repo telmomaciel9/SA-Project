@@ -55,19 +55,18 @@ public class RegisterActivity extends AppCompatActivity {
                                 Map<String, Object> userMap = new HashMap<>();
                                 userMap.put("name", "John Doe");
                                 userMap.put("email", email);
+                                userMap.put("creationDate", System.currentTimeMillis());  // Record registration timestamp
+                                userMap.put("workouts", 0);  // Initial workouts count
                                 // Save user details
                                 assert user != null;
-                                db.collection("users").document(user.getUid()).set(userMap);
-
-                                db.collection("users").document(user.getUid()).get().addOnSuccessListener(documentSnapshot -> {
-                                    if (documentSnapshot.exists()) {
-                                        String name = documentSnapshot.getString("name");
-                                        System.out.println(name);
-                                        // Update your UI
-                                    }
-                                });
-
-                                startActivity(new Intent(this, BeginningActivity.class));
+                                db.collection("users").document(user.getUid()).set(userMap)
+                                        .addOnSuccessListener(avoid -> {
+                                            Log.d("RegisterActivity", "UserProfile created for " + user.getUid());
+                                            startActivity(new Intent(this, BeginningActivity.class));
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Log.w("RegisterActivity", "Error writing document", e);
+                                        });
                             } else {
                                 // If sign in fails, display a message to the user.
                                 if (task.getException() instanceof FirebaseAuthUserCollisionException) {
