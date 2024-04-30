@@ -27,7 +27,7 @@ public class BeginningActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beginning);
-        DatabaseHelper dh = DatabaseHelper.getInstance(this);
+        DatabaseHelper dh = DatabaseHelper.getInstance();
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
             if(ContextCompat.checkSelfPermission(BeginningActivity.this,

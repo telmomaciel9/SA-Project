@@ -26,7 +26,7 @@ public class BenchResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bench_results);
 
-        DatabaseHelper dh = DatabaseHelper.getInstance(this);
+        DatabaseHelper dh = DatabaseHelper.getInstance();
 
         editTextReps = findViewById(R.id.editTextReps);
         editTextWeight = findViewById(R.id.editTextWeight);
@@ -60,8 +60,7 @@ public class BenchResultsActivity extends AppCompatActivity {
             float weight = Float.parseFloat(editTextWeight.getText().toString().trim());
 
             BenchExerciseData exercise = new BenchExerciseData(weight, maxAcceleration, reps, maxAcceleration);
-            DatabaseHelper dh = DatabaseHelper.getInstance(this);
-            BenchExerciseData.createTable(dh);
+            DatabaseHelper dh = DatabaseHelper.getInstance();
             dh.addExerciseData(exercise);
 
             closeActivity();

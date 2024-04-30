@@ -36,19 +36,6 @@ public class OverheadPressExerciseData extends ExerciseData{
         return table_name;
     }
 
-    public static void createTable(DatabaseHelper dh) {
-        SQLiteDatabase db = dh.getWritableDatabase();
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + table_name + " ("
-                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "workout_id INTEGER, "
-                + "weight REAL, "
-                + "reps INTEGER, "
-                + "mean_acceleration REAL, "
-                + "max_acceleration REAL, "
-                + "FOREIGN KEY(workout_id) REFERENCES workouts(id)"
-                + ");");
-    }
-
     public String toString(){
         return "Weight: " + this.weight + "kg; Repetitions: " + this.repetitions + ";\n    " +
                 "Mean Acceleration: " + this.mean_acceleration + "m/s²;\n    " +

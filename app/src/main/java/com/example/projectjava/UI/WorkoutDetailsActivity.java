@@ -31,7 +31,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity implements Exercis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_details);
-        this.db = DatabaseHelper.getInstance(this);
+        this.db = DatabaseHelper.getInstance();
         textViewWorkoutId = findViewById(R.id.textViewWorkoutId);
         textViewWorkoutType = findViewById(R.id.textViewWorkoutType);
         textViewWorkoutNotes = findViewById(R.id.textViewWorkoutNotes);

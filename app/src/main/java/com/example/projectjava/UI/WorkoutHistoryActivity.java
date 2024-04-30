@@ -26,7 +26,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity implements Workout
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        databaseHelper = DatabaseHelper.getInstance(this);
+        databaseHelper = DatabaseHelper.getInstance();
         databaseHelper.getAllWorkouts(new DatabaseHelper.FirebaseFirestoreCallback() {
             @Override
             public void onCallback(ArrayList<Workout> workouts) {

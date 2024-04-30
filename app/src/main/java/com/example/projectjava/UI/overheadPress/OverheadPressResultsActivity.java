@@ -25,8 +25,6 @@ public class OverheadPressResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overhead_press_results);
 
-        DatabaseHelper dh = DatabaseHelper.getInstance(this);
-
         editTextReps = findViewById(R.id.editTextReps);
         editTextWeight = findViewById(R.id.editTextWeight);
         textViewOHPStats = findViewById(R.id.textViewOHPStats);
@@ -60,8 +58,7 @@ public class OverheadPressResultsActivity extends AppCompatActivity {
             float weight = Float.parseFloat(editTextWeight.getText().toString().trim());
 
             OverheadPressExerciseData exercise = new OverheadPressExerciseData(weight, maxAcceleration, reps, meanAcceleration);
-            DatabaseHelper dh = DatabaseHelper.getInstance(this);
-            OverheadPressExerciseData.createTable(dh);
+            DatabaseHelper dh = DatabaseHelper.getInstance();
             dh.addExerciseData(exercise);
 
             closeActivity();

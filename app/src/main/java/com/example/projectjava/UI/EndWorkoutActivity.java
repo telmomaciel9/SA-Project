@@ -23,7 +23,7 @@ public class EndWorkoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_end_workout);
         editTextNotes = findViewById(R.id.editTextNotes);
         editTextType = findViewById(R.id.editTextType);
-        DatabaseHelper db = DatabaseHelper.getInstance(this);
+        DatabaseHelper db = DatabaseHelper.getInstance();
 
         findViewById(R.id.btnSaveWorkout).setOnClickListener(new View.OnClickListener() {
             @Override

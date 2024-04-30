@@ -34,18 +34,6 @@ public class RunningExerciseData extends ExerciseData {
         return table_name;
     }
 
-    public static void createTable(DatabaseHelper dh) {
-        SQLiteDatabase db = dh.getWritableDatabase();
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + table_name + " ("
-                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "workout_id INTEGER, "
-                + "distance REAL, "
-                + "avg_velocity REAL, "
-                + "max_velocity REAL,"
-                + "FOREIGN KEY(workout_id) REFERENCES workouts(id)"
-                + ");");
-    }
-
     public String toString(){
         return "Distance ran: " + this.distance + "m;\n    " +
                 "Average Velocity: " + this.avg_velocity + "m/s;\n    " +

@@ -34,7 +34,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
         exerciseTitle = findViewById(R.id.textViewExerciseTitle);
         exerciseStats = findViewById(R.id.textViewExerciseStats);
 
-        db = DatabaseHelper.getInstance(this);
+        db = DatabaseHelper.getInstance();
         String exerciseId = getIntent().getStringExtra("exerciseId");
         if(exerciseId != null){
             db.getExercise(exerciseId)
