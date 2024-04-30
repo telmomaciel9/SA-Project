@@ -35,16 +35,21 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
         exerciseStats = findViewById(R.id.textViewExerciseStats);
 
         db = DatabaseHelper.getInstance(this);
-        long exerciseId = getIntent().getLongExtra("exerciseId", -1);
-        if(exerciseId != -1){
-            this.exercise = db.getExercise(exerciseId);
-            String text = this.exercise.getExerciseName() + " progress";
-            exerciseTitle.setText(text);
-            text = this.exercise.toString();
-            exerciseStats.setText(text);
-            generateLineChart(); // Apenas para testar agora (mudar isto depois)
+        String exerciseId = getIntent().getStringExtra("exerciseId");
+        if(exerciseId != null){
+            db.getExercise(exerciseId)
+                    .addOnSuccessListener(exercise -> {
+                        String text = exercise.getExerciseName() + " progress";
+                        exerciseTitle.setText(text);
+                        text = exercise.toString();
+                        exerciseStats.setText(text);
+                        generateLineChart(); // Apenas para testar agora (mudar isto depois)
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("ExerciseDetails", "Error fetching exercise", e);
+                    });
         }else{
-            Log.e("Exercise details", "Coudn't get exercise id!");
+            Log.e("ExerciseDetails", "Coudn't get exercise id!");
         }
     }
 

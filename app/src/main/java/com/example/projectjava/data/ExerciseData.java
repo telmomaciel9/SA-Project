@@ -2,26 +2,31 @@ package com.example.projectjava.data;
 
 import android.content.ContentValues;
 
+import java.util.Map;
+
 public abstract class ExerciseData{
     private String exerciseName;
-    private long id;
+    private String id;
+
+    public ExerciseData() {}
     public ExerciseData(String exerciseName) {
-        this.id = -1;
+        this.id = null;
         this.exerciseName = exerciseName;
     }
-    public ExerciseData(long id, String exerciseName) {
+    public ExerciseData(String id, String exerciseName) {
         this.id = id;
         this.exerciseName = exerciseName;
     }
-    public abstract ContentValues getContentValues(long workoutId);
     public abstract String getTableName();
     public String getExerciseName(){
         return this.exerciseName;
     }
-    public long getId(){
+    public String getId(){
         return this.id;
     }
     public void setId(){
         this.id = id;
     }
+
+    public abstract Map<String, Object> toMap();
 }

@@ -3,41 +3,50 @@ package com.example.projectjava.data;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
+import androidx.annotation.NonNull;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class BenchExerciseData extends ExerciseData{
-    private static final String table_name = "bench";
+    public static final String table_name = "bench";
     private float weight;
     private int repetitions;
-    private float meanAcceleration;
-    private float maxAcceleration;
+    private float mean_acceleration;
+    private float max_acceleration;
+    public BenchExerciseData() {
+        super("Bench Press");
+    }
 
     public BenchExerciseData(float w, float maxa, int r, float meana){
         super("Bench Press");
         this.weight = w;
-        this.maxAcceleration = maxa;
-        this.meanAcceleration = meana;
+        this.max_acceleration = maxa;
+        this.mean_acceleration = meana;
         this.repetitions = r;
     }
 
-    public BenchExerciseData(long id, float w, float maxa, int r, float meana){
+    public BenchExerciseData(String id, float w, float maxa, int r, float meana){
         super(id, "Bench Press");
         this.weight = w;
-        this.maxAcceleration = maxa;
-        this.meanAcceleration = meana;
+        this.max_acceleration = maxa;
+        this.mean_acceleration = meana;
         this.repetitions = r;
-    }
-
-    public ContentValues getContentValues(long workoutId) {
-        ContentValues values = new ContentValues();
-        values.put("weight", this.weight);
-        values.put("reps", this.repetitions);
-        values.put("mean_acceleration", this.meanAcceleration);
-        values.put("max_acceleration", this.maxAcceleration);
-        values.put("workout_id", workoutId);
-        return values;
     }
 
     public String getTableName() {
         return table_name;
+    }
+
+    @Override
+    public Map<String, Object> toMap() {
+        Map<String, Object> values = new HashMap<>();
+        values.put("exercise_name", table_name);
+        values.put("weight", this.weight);
+        values.put("repetitions", this.repetitions);
+        values.put("mean_acceleration", this.mean_acceleration);
+        values.put("max_acceleration", this.max_acceleration);
+        return values;
     }
 
     public static void createTable(DatabaseHelper dh) {
@@ -53,9 +62,42 @@ public class BenchExerciseData extends ExerciseData{
                 + ");");
     }
 
+    @NonNull
     public String toString(){
         return "Weight: " + this.weight + "kg; Repetitions: " + this.repetitions + ";\n    " +
-                "Mean Acceleration: " + this.meanAcceleration + "m/s²;\n    " +
-                "Max Acceleration: " + this.maxAcceleration + "m/s²";
+                "Mean Acceleration: " + this.mean_acceleration + "m/s²;\n    " +
+                "Max Acceleration: " + this.max_acceleration + "m/s²";
+    }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    public int getRepetitions() {
+        return repetitions;
+    }
+
+    public void setRepetitions(int repetitions) {
+        this.repetitions = repetitions;
+    }
+
+    public float getmean_acceleration() {
+        return mean_acceleration;
+    }
+
+    public void setmean_acceleration(float mean_acceleration) {
+        this.mean_acceleration = mean_acceleration;
+    }
+
+    public float getmax_acceleration() {
+        return max_acceleration;
+    }
+
+    public void setmax_acceleration(float max_acceleration) {
+        this.max_acceleration = max_acceleration;
     }
 }

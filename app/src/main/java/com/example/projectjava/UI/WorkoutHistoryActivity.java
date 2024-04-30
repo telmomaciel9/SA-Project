@@ -27,10 +27,15 @@ public class WorkoutHistoryActivity extends AppCompatActivity implements Workout
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         databaseHelper = DatabaseHelper.getInstance(this);
-        ArrayList<Workout> workouts = databaseHelper.getAllWorkouts();
-
-        adapter = new WorkoutsAdapter(workouts, this);
-        recyclerView.setAdapter(adapter);
+        databaseHelper.getAllWorkouts(new DatabaseHelper.FirebaseFirestoreCallback() {
+            @Override
+            public void onCallback(ArrayList<Workout> workouts) {
+                System.out.println(workouts);
+                adapter = new WorkoutsAdapter(workouts, WorkoutHistoryActivity.this);
+                System.out.println(adapter);
+                recyclerView.setAdapter(adapter);
+            }
+        });
     }
 
     @Override
@@ -40,8 +45,12 @@ public class WorkoutHistoryActivity extends AppCompatActivity implements Workout
     }
 
     private void refreshWorkoutList() {
-        ArrayList<Workout> workouts = databaseHelper.getAllWorkouts();  // Fetch all workouts from the database
-        adapter.updateData(workouts);  // Update the adapter's data
+        databaseHelper.getAllWorkouts(new DatabaseHelper.FirebaseFirestoreCallback() {
+            @Override
+            public void onCallback(ArrayList<Workout> workouts) {
+                adapter.updateData(workouts);  // Update the adapter's data
+            }
+        });
     }
 
     // Um workout é clickado
