@@ -31,7 +31,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Objects;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper{
 
     private static DatabaseHelper instance;
     private static String users_table_name = "users";
@@ -41,38 +41,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private ArrayList<ExerciseData> exerciseDataList;  // Holds exercise data temporarily
     private FirebaseFirestore dbFirebase;
 
-    private static final String DATABASE_NAME = "app_database.db";
-    private static final int DATABASE_VERSION = 2;
-
-    public static synchronized DatabaseHelper getInstance(Context context) {
+    public static synchronized DatabaseHelper getInstance() {
         if (instance == null) {
-            instance = new DatabaseHelper(context.getApplicationContext());
+            instance = new DatabaseHelper();
         }
         return instance;
     }
 
-    private DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    private DatabaseHelper() {
         this.exerciseDataList = null;
         this.dbFirebase = FirebaseFirestore.getInstance();
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        // create workout table
-        db.execSQL(
-                "CREATE TABLE IF NOT EXISTS workouts (" +
-                        "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        // "duration REAL," +
-                        "type TEXT," +
-                        "notes TEXT" +
-                        ");"
-        );
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Upgrade database if needed
     }
 
     public void beginWorkout() {
@@ -118,8 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.exerciseDataList.add(exerciseData);
     }
 
-    // retrieve all workouts of a given user
-    // Asynchronous method to retrieve all workouts
+    // Asynchronous method to retrieve all workouts of a given user
     public void getAllWorkouts(FirebaseFirestoreCallback callback) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         ArrayList<Workout> workouts = new ArrayList<>();
