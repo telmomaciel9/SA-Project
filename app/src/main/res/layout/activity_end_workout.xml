@@ -1,42 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Have you finished your workout?"
-        android:textSize="20dp"
-        android:paddingBottom="30dp"/>
+    <include
+        android:id="@+id/include2"
+        layout="@layout/header"
+        android:layout_width="match_parent"
+        android:layout_height="70dp" />
 
-    <EditText
-        android:id="@+id/editTextType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="What was the workout type?"
-        android:padding="30dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <EditText
-        android:id="@+id/editTextNotes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Add the workout notes here."
-        android:padding="30dp"/>
 
-    <Button
-        android:id="@+id/btnSaveWorkout"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="Save Workout"
-        android:layout_marginTop="30dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Have you finished your workout?"
+            android:textSize="20dp"
+            android:paddingBottom="30dp"/>
 
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="Cancel Workout"
-        android:id="@+id/btnCancelWorkout"/>
+        <EditText
+            android:id="@+id/editTextType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="What was the workout type?"
+            android:padding="30dp"/>
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/editTextNotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Add the workout notes here."
+            android:padding="30dp"/>
+
+        <Button
+            android:id="@+id/btnSaveWorkout"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Save Workout"
+            android:layout_marginTop="30dp"/>
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Cancel Workout"
+            android:id="@+id/btnCancelWorkout"/>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="20dp">
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/include2"
+        layout="@layout/header"
+        android:layout_width="match_parent"
+        android:layout_height="70dp" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/details"
-        android:textSize="40sp"/>
-
-    <TextView
-        android:id="@+id/textViewWorkoutId"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="Teste"
-        android:textSize="25dp"
-        android:layout_below="@id/title"/>
+        android:textSize="40sp"
+        android:layout_below="@id/include2"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"/>
 
     <TextView
         android:id="@+id/textViewWorkoutType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
-        android:layout_toEndOf="@id/textViewWorkoutId"
         android:text="Teste"
-        android:textSize="22dp"/>
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"/>
 
     <TextView
         android:id="@+id/textViewWorkoutNotes"
@@ -34,7 +35,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewWorkoutType"
         android:text="notas"
-        android:textSize="15dp"/>
+        android:textSize="18dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/exercisesRecyclerView"

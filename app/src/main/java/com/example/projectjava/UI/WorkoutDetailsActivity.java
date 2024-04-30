@@ -21,7 +21,6 @@ import java.util.List;
 
 public class WorkoutDetailsActivity extends AppCompatActivity implements ExercisesAdapter.OnItemClickListener{
     private DatabaseHelper db;
-    private TextView textViewWorkoutId;
     private TextView textViewWorkoutType;
     private TextView textViewWorkoutNotes;
     private RecyclerView exercisesRecyclerView;
@@ -32,7 +31,6 @@ public class WorkoutDetailsActivity extends AppCompatActivity implements Exercis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_details);
         this.db = DatabaseHelper.getInstance();
-        textViewWorkoutId = findViewById(R.id.textViewWorkoutId);
         textViewWorkoutType = findViewById(R.id.textViewWorkoutType);
         textViewWorkoutNotes = findViewById(R.id.textViewWorkoutNotes);
         exercisesRecyclerView = findViewById(R.id.exercisesRecyclerView);
@@ -58,10 +56,8 @@ public class WorkoutDetailsActivity extends AppCompatActivity implements Exercis
 
     private void setupUI(Workout workout) {
         this.workoutId = workout.getId();
-        String id = "Id: " + this.workoutId;
         String type = "Type: " + workout.getType();
         String notes = "Notes: " + workout.getNotes();
-        textViewWorkoutId.setText(id);
         textViewWorkoutType.setText(type);
         textViewWorkoutNotes.setText(notes);
 
@@ -74,16 +70,17 @@ public class WorkoutDetailsActivity extends AppCompatActivity implements Exercis
             } else {
                 Log.e("WorkoutDetails", "Problema ao retirar exercícios do workout " + this.workoutId);
             }
-        })
-                .addOnFailureListener(e -> {
-                    Log.e("WorkoutDetails", "Failed getting workout exercises");
-
-                });
+        }).addOnFailureListener(e -> {
+            Log.e("WorkoutDetails", "Failed getting workout exercises");
+        });
     }
 
     @Override
     public void onItemClick(ExerciseData exercise) {
         Intent intent = new Intent(WorkoutDetailsActivity.this, ExerciseDetailsActivity.class);
+        if(exercise.getId() == null){
+            Log.e("Workout details", "Exercise id is null!");
+        }
         intent.putExtra("exerciseId", exercise.getId());
         startActivity(intent);
     }

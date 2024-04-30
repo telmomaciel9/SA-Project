@@ -37,7 +37,6 @@ public class DatabaseHelper{
     private static String users_table_name = "users";
     private static String workout_table_name = "workouts";
     private static String exercises_table_name = "exercises";
-    private static List<String> exercises_tables = new ArrayList<>(Arrays.asList("bench", "running", "ohp"));
     private ArrayList<ExerciseData> exerciseDataList;  // Holds exercise data temporarily
     private FirebaseFirestore dbFirebase;
 
@@ -195,6 +194,7 @@ public class DatabaseHelper{
                                 break;
                         }
                         if (exercise != null) {
+                            exercise.setId(document.getId());
                             exercises.add(exercise);
                         }
                     }
@@ -210,39 +210,94 @@ public class DatabaseHelper{
         return exercisesTask;
     }
 
-    public Task<ExerciseData> getExercise(String exerciseId){
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            String userId = currentUser.getUid(); // Assuming user-based data segregation
-            return dbFirebase.collection(users_table_name)
-                    .document(userId)
-                    .collection(exercises_table_name)
-                    .document(exerciseId)
-                    .get()
-                    .continueWith(task -> {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document != null && document.exists()) {
-                                String table = document.getString("type");
-                                switch (Objects.requireNonNull(table)) {
-                                    case BenchExerciseData.table_name:
-                                        return document.toObject(BenchExerciseData.class);
-                                    case OverheadPressExerciseData.table_name:
-                                        return document.toObject(OverheadPressExerciseData.class);
-                                    case RunningExerciseData.table_name:
-                                        return document.toObject(RunningExerciseData.class);
-                                    default:
-                                        throw new IllegalArgumentException("Unknown exercise type");
-                                }
+    public Task<ExerciseData> getExercise(String exerciseId) {
+        if (exerciseId == null || exerciseId.isEmpty()) {
+            return Tasks.forException(new NullPointerException("Exercise ID must not be null or empty"));
+        }
+
+        // Directly accessing the 'exercises' collection to retrieve a specific exercise by its ID.
+        return dbFirebase.collection("exercises")
+                .document(exerciseId)
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document != null && document.exists()) {
+                            String type = document.getString("exercise_name");
+                            if (type == null) {
+                                throw new IllegalArgumentException("Exercise type is missing in the document");
                             }
-                            throw new IllegalStateException("Exercise not found");
+                            switch (type) {
+                                case BenchExerciseData.table_name:
+                                    return document.toObject(BenchExerciseData.class);
+                                case OverheadPressExerciseData.table_name:
+                                    return document.toObject(OverheadPressExerciseData.class);
+                                case RunningExerciseData.table_name:
+                                    return document.toObject(RunningExerciseData.class);
+                                default:
+                                    throw new IllegalArgumentException("Unknown exercise type: " + type);
+                            }
                         } else {
-                            throw Objects.requireNonNull(task.getException());
+                            throw new IllegalStateException("Exercise not found with ID: " + exerciseId);
                         }
-                    });
-        } else {
+                    } else {
+                        throw Objects.requireNonNull(task.getException(), "Error fetching exercise");
+                    }
+                });
+    }
+
+
+    public Task<List<ExerciseData>> getExercisesByType(ExerciseData exercise) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
             return Tasks.forException(new Exception("No user logged in"));
         }
+
+        if (exercise == null) {
+            return Tasks.forException(new NullPointerException("Exercise must not be null"));
+        }
+
+        // need to check if current user id is the same as the user id in the given workout
+
+        // Reference to the 'exercises' collection filtered by workoutId
+        Query query = dbFirebase.collection("exercises");
+
+        Task<List<ExerciseData>> exercisesTask = query.get().continueWith(task -> {
+            List<ExerciseData> exercises = new ArrayList<>();
+            if (task.isSuccessful()) {
+                QuerySnapshot snapshot = task.getResult();
+                if (snapshot != null && !snapshot.isEmpty()) {
+                    for (DocumentSnapshot document : snapshot.getDocuments()) {
+                        ExerciseData e = null;  // Ensure ExerciseData class is correctly mapped
+                        switch (Objects.requireNonNull(document.getString("exercise_name"))){
+                            case(BenchExerciseData.table_name):
+                                e = document.toObject(BenchExerciseData.class);
+                                break;
+                            case(OverheadPressExerciseData.table_name):
+                                e = document.toObject(OverheadPressExerciseData.class);
+                                break;
+                            case(RunningExerciseData.table_name):
+                                e = document.toObject(RunningExerciseData.class);
+                                break;
+                            default:
+                                Log.e("Database", "Exercise type not valid");
+                                break;
+                        }
+                        if (e != null && e.getClass() == exercise.getClass()) {
+                            e.setId(document.getId());
+                            exercises.add(e);
+                        }
+                    }
+                } else {
+                    Log.d("DatabaseHelper", "No exercises found for the type: " + exercise.getClass());
+                }
+            } else {
+                Log.e("DatabaseHelper", "Error retrieving exercises: ", task.getException());
+                throw task.getException();
+            }
+            return exercises;
+        });
+        return exercisesTask;
     }
 
 }

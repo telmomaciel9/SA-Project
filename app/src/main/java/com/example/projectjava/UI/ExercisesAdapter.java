@@ -58,16 +58,20 @@ public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.Exer
 
     static class ExercisesViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewExerciseName;
+        private TextView textViewEXerciseStats;
         private CardView cardView;
         ExercisesViewHolder(View itemView) {
             super(itemView);
             this.textViewExerciseName = itemView.findViewById(R.id.exerciseName);
+            this.textViewEXerciseStats = itemView.findViewById(R.id.exerciseStats);
             this.cardView = itemView.findViewById(R.id.main_container);
         }
 
         void bind(ExerciseData exercise, int position) {
-            String text = (position+1) + ". " + exercise.getExerciseName() + "\n    " + exercise;
+            String text = (position+1) + ". " + exercise.getExerciseName();
             this.textViewExerciseName.setText(text);
+            text = exercise.toString();
+            this.textViewEXerciseStats.setText(text);
         }
     }
 }

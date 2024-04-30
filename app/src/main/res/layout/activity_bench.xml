@@ -3,8 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="20dp">
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/include2"
+        layout="@layout/header"
+        android:layout_width="match_parent"
+        android:layout_height="70dp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -14,7 +19,8 @@
         android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/include2"
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:id="@+id/textViewTimer"

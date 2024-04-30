@@ -43,7 +43,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:22.3.1")  // Use the latest version
     implementation("com.google.firebase:firebase-firestore:24.11.1")
     implementation(files("libs/MPAndroidChart-v3.0.1.jar"))  // Dependency for graph generation
-
+    implementation("com.jjoe64:graphview:4.2.2")                    // Another dependency for graph generation
     // implementation("androidx.activity:activity:1.8.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

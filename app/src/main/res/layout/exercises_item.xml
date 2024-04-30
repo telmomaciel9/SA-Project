@@ -7,11 +7,31 @@
     android:layout_margin="8dp"
     android:id="@+id/main_container">
 
-    <TextView
-        android:id="@+id/exerciseName"
+    <LinearLayout
+        android:id="@+id/linear"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:text="Teste"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/exerciseName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="3dp"
+            android:textSize="20sp"
+            android:text="Teste"/>
+
+        <TextView
+            android:id="@+id/exerciseStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginTop="3dp"
+            android:text="stats"
+            android:textSize="15sp"/>
+    </LinearLayout>
+
 
 </androidx.cardview.widget.CardView>

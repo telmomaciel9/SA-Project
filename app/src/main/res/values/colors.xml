@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="theme_color">#BC50B2</color>
+    <color name="status_bar_color">#9E4196</color>
 </resources>

@@ -57,22 +57,18 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.Workou
     }
 
     static class WorkoutViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewWorkoutId;
         TextView textViewWorkoutType;
         TextView textViewWorkoutNotes;
         CardView cardView;
 
         WorkoutViewHolder(View itemView) {
             super(itemView);
-            textViewWorkoutId = itemView.findViewById(R.id.textViewWorkoutId);
             textViewWorkoutType = itemView.findViewById(R.id.textViewWorkoutType);
             textViewWorkoutNotes = itemView.findViewById(R.id.textViewWorkoutNotes);
             cardView = itemView.findViewById(R.id.main_container);
         }
 
         void bind(Workout workout) {
-            String id = "Id: " + workout.getId();
-            textViewWorkoutId.setText(id);
             String type = "Type: " + workout.getType();
             textViewWorkoutType.setText(type);
             String notes = "Notes: " + workout.getNotes();

@@ -14,19 +14,11 @@
         android:layout_margin="8dp">
 
         <TextView
-            android:id="@+id/textViewWorkoutId"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Teste"
-            android:textSize="25dp"/>
-
-        <TextView
             android:id="@+id/textViewWorkoutType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/textViewWorkoutId"
             android:text="Teste"
-            android:textSize="25dp"/>
+            android:textSize="20dp"/>
     </LinearLayout>
 
     <TextView
@@ -36,5 +28,6 @@
         android:layout_marginTop="40dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:textSize="15dp"/>
+        android:textSize="18dp"
+        android:text="notas"/>
 </androidx.cardview.widget.CardView>
