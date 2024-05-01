@@ -1,20 +1,14 @@
 package com.example.projectjava.data;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
+import com.example.projectjava.data.defaultExercises.BenchExerciseData;
+import com.example.projectjava.data.defaultExercises.OverheadPressExerciseData;
+import com.example.projectjava.data.defaultExercises.RunningExerciseData;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -22,21 +16,18 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Objects;
 
 public class DatabaseHelper{
-
     private static DatabaseHelper instance;
     private static String users_table_name = "users";
     private static String workout_table_name = "workouts";
+    private static String premade_workout_table_name = "premade_workouts";
     private static String exercises_table_name = "exercises";
+    private static String premade_exercises_table_name = "premade_exercises";
     private ArrayList<ExerciseData> exerciseDataList;  // Holds exercise data temporarily
     private FirebaseFirestore dbFirebase;
 
@@ -50,6 +41,38 @@ public class DatabaseHelper{
     private DatabaseHelper() {
         this.exerciseDataList = null;
         this.dbFirebase = FirebaseFirestore.getInstance();
+    }
+
+    public void addPremadeWorkout(String workout_name, List<PremadeExercise> exercises){
+        Map<String, Object> premade_workout = new HashMap<>();
+        premade_workout.put("workout_name", workout_name);
+        String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        premade_workout.put("userId", userId); // User is logged in at this point
+
+        dbFirebase.collection(premade_workout_table_name)
+                .add(premade_workout)
+                .addOnSuccessListener(documentReference -> {
+                    String premade_workout_id = documentReference.getId();
+                    savePremadeExercises(premade_workout_id, exercises);
+                })
+                .addOnFailureListener(e -> Log.e("DatabaseHelper", "Error adding document", e));
+    }
+
+    public void savePremadeExercises(String preWorkoutId, List<PremadeExercise> exercises){
+        if (exercises == null || exercises.isEmpty()) {
+            Log.e("DatabaseHelper", "No exercises to save");
+            return;
+        }
+
+        for (PremadeExercise ex: exercises) {
+            Map<String, Object> exercise = ex.toMap(); // Assuming ExerciseData has a method to convert to Map
+            exercise.put("workoutId", preWorkoutId); // Add workout reference
+
+            dbFirebase.collection(premade_exercises_table_name)
+                    .add(exercise)
+                    .addOnSuccessListener(documentReference -> Log.d("DatabaseHelper", "Exercise saved with ID: " + documentReference.getId()))
+                    .addOnFailureListener(e -> Log.w("DatabaseHelper", "Error adding exercise document", e));
+        }
     }
 
     public void beginWorkout() {
@@ -71,8 +94,7 @@ public class DatabaseHelper{
                     Log.w("DatabaseHelper", "Sucessfully added workout");
                     saveExercises(workoutId);
                 })
-                .addOnFailureListener(e -> Log.w("DatabaseHelper", "Error adding document", e));
-
+                .addOnFailureListener(e -> Log.e("DatabaseHelper", "Error adding document", e));
     }
 
     private void saveExercises(String workoutId) {
@@ -184,18 +206,28 @@ public class DatabaseHelper{
                         ExerciseData exercise = null;  // Ensure ExerciseData class is correctly mapped
                         switch (Objects.requireNonNull(document.getString("exercise_name"))){
                             case(BenchExerciseData.table_name):
-                                exercise = document.toObject(BenchExerciseData.class);
+                                // exercise = document.toObject(BenchExerciseData.class);
+                                exercise = BenchExerciseData.deserealize(document);
                                 break;
                             case(OverheadPressExerciseData.table_name):
-                                exercise = document.toObject(OverheadPressExerciseData.class);
+                                // exercise = document.toObject(OverheadPressExerciseData.class);
+                                exercise = OverheadPressExerciseData.deserealize(document);
                                 break;
                             case(RunningExerciseData.table_name):
-                                exercise = document.toObject(RunningExerciseData.class);
+                                // exercise = document.toObject(RunningExerciseData.class);
+                                exercise = RunningExerciseData.deserealize(document);
+                                break;
+                            default:
+                                System.out.println("Invalid exercise_name!");
                                 break;
                         }
                         if (exercise != null) {
+                            System.out.println("Adding the exercise!");
+                            System.out.println("TimeStamp: " + exercise.getTimeStamp());
                             exercise.setId(document.getId());
                             exercises.add(exercise);
+                        }else{
+                            System.out.println("Exercise is null!");
                         }
                     }
                 } else {
@@ -271,19 +303,23 @@ public class DatabaseHelper{
                         ExerciseData e = null;  // Ensure ExerciseData class is correctly mapped
                         switch (Objects.requireNonNull(document.getString("exercise_name"))){
                             case(BenchExerciseData.table_name):
-                                e = document.toObject(BenchExerciseData.class);
+                                // e = document.toObject(BenchExerciseData.class);
+                                e = BenchExerciseData.deserealize(document);
                                 break;
                             case(OverheadPressExerciseData.table_name):
-                                e = document.toObject(OverheadPressExerciseData.class);
+                                // e = document.toObject(OverheadPressExerciseData.class);
+                                e = OverheadPressExerciseData.deserealize(document);
                                 break;
                             case(RunningExerciseData.table_name):
-                                e = document.toObject(RunningExerciseData.class);
+                                // e = document.toObject(RunningExerciseData.class);
+                                e = RunningExerciseData.deserealize(document);
                                 break;
                             default:
                                 Log.e("Database", "Exercise type not valid");
                                 break;
                         }
                         if (e != null && e.getClass() == exercise.getClass()) {
+                            System.out.println("Reps: " + e.getExerciseMetrics("Repetitions"));
                             e.setId(document.getId());
                             exercises.add(e);
                         }

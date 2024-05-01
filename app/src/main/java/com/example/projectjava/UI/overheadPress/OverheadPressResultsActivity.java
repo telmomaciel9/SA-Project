@@ -14,7 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.projectjava.R;
 import com.example.projectjava.UI.MainActivity;
 import com.example.projectjava.data.DatabaseHelper;
-import com.example.projectjava.data.OverheadPressExerciseData;
+import com.example.projectjava.data.defaultExercises.OverheadPressExerciseData;
+
+import java.time.Instant;
 
 public class OverheadPressResultsActivity extends AppCompatActivity {
     private TextView textViewOHPStats;
@@ -57,7 +59,14 @@ public class OverheadPressResultsActivity extends AppCompatActivity {
             int reps = Integer.parseInt(editTextReps.getText().toString().trim());
             float weight = Float.parseFloat(editTextWeight.getText().toString().trim());
 
-            OverheadPressExerciseData exercise = new OverheadPressExerciseData(weight, maxAcceleration, reps, meanAcceleration);
+            Instant instant = null;
+            long timeStamp = -1;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                instant = Instant.now();
+                timeStamp = instant.getEpochSecond();
+            }
+
+            OverheadPressExerciseData exercise = new OverheadPressExerciseData(weight, maxAcceleration, reps, meanAcceleration, timeStamp);
             DatabaseHelper dh = DatabaseHelper.getInstance();
             dh.addExerciseData(exercise);
 

@@ -1,47 +1,32 @@
-package com.example.projectjava.data;
-
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+package com.example.projectjava.data.defaultExercises;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import com.github.mikephil.charting.data.Entry;
-import com.jjoe64.graphview.series.DataPoint;
+import com.example.projectjava.data.ExerciseData;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
-public class BenchExerciseData extends ExerciseData{
+public class BenchExerciseData extends ExerciseData {
     public static final String table_name = "bench";
     private float weight;
     private int repetitions;
     private float mean_acceleration;
     private float max_acceleration;
-    public BenchExerciseData() {
-        super("Bench Press");
+
+    public BenchExerciseData(){
+        super("Bench Press", -1);
     }
 
-    public BenchExerciseData(float w, float maxa, int r, float meana){
-        super("Bench Press");
-        this.weight = w;
-        this.max_acceleration = maxa;
-        this.mean_acceleration = meana;
-        this.repetitions = r;
-    }
-
-    public BenchExerciseData(String id, float w, float maxa, int r, float meana){
-        super(id, "Bench Press");
-        this.weight = w;
-        this.max_acceleration = maxa;
-        this.mean_acceleration = meana;
-        this.repetitions = r;
+    public BenchExerciseData(float weight, float max_acceleration, int repetitions, float mean_acceleration, long time_stamp){
+        super("Bench Press", time_stamp);
+        this.weight = weight;
+        this.max_acceleration = max_acceleration;
+        this.mean_acceleration = mean_acceleration;
+        this.repetitions = repetitions;
     }
 
     public String getTableName() {
@@ -56,28 +41,23 @@ public class BenchExerciseData extends ExerciseData{
         values.put("repetitions", this.repetitions);
         values.put("mean_acceleration", this.mean_acceleration);
         values.put("max_acceleration", this.max_acceleration);
+        values.put("time_stamp", super.getTimeStamp());
         return values;
     }
 
+    public static ExerciseData deserealize(DocumentSnapshot document){
+        float weight = document.getDouble("weight").floatValue();
+        int repetitions = Math.toIntExact(document.getLong("repetitions"));
+        float mean_acceleration = document.getDouble("mean_acceleration").floatValue();
+        float max_acceleration = document.getDouble("max_acceleration").floatValue();
+        long time_stamp = document.getLong("time_stamp");
+        System.out.println("Timestamp: " + time_stamp);
+        return new BenchExerciseData(weight, max_acceleration, repetitions, mean_acceleration, time_stamp);
+    }
 
     @Override
-    public DataPoint getExerciseMetrics(String xMetric, String yMetric) {
-        float x = 0;
+    public float getExerciseMetrics(String yMetric) {
         float y = 0;
-
-        switch (xMetric){
-            case ("Weight"):
-                x = this.weight;
-                break;
-            case ("Repetitions"):
-                x = (float) this.repetitions;
-                break;
-            case ("Mean Acceleration"):
-                x = this.mean_acceleration;
-                break;
-            case ("Maximum Acceleration"):
-                x = this.max_acceleration;
-        }
 
         switch (yMetric){
             case ("Weight"):
@@ -93,11 +73,15 @@ public class BenchExerciseData extends ExerciseData{
                 y = this.max_acceleration;
         }
 
-        return new DataPoint(x,y);
+        return y;
     }
 
     public List<String> getExerciseProgressMetrics(){
         return Arrays.asList("Weight", "Repetitions", "Mean Acceleration", "Maximum Acceleration");
+    }
+
+    public List<String> getExerciseProgressMetricsAbrv(){
+        return Arrays.asList("Weight", "Reps", "Mean Acc", "Max Acc");
     }
 
     @NonNull

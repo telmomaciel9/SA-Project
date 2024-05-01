@@ -1,36 +1,26 @@
-package com.example.projectjava.data;
+package com.example.projectjava.data.defaultExercises;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
-
-import com.github.mikephil.charting.data.Entry;
-import com.jjoe64.graphview.series.DataPoint;
+import com.example.projectjava.data.ExerciseData;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OverheadPressExerciseData extends ExerciseData{
+public class OverheadPressExerciseData extends ExerciseData {
     public static final String table_name = "ohp";
     private float weight;
     private int repetitions;
     private float max_acceleration;
     private float mean_acceleration;
-    public OverheadPressExerciseData() {
-        super("Overhead Press");
+
+    public OverheadPressExerciseData(){
+        super("Overhead Press", -1);
     }
 
-    public OverheadPressExerciseData(float w, float ma, int r, float meana){
-        super("Overhead Press");
-        this.weight = w;
-        this.max_acceleration = ma;
-        this.repetitions = r;
-        this.mean_acceleration = meana;
-    }
-
-    public OverheadPressExerciseData(String id, float w, float ma, int r, float meana){
-        super(id, "Overhead Press");
+    public OverheadPressExerciseData(float w, float ma, int r, float meana, long time_stamp){
+        super("Overhead Press", time_stamp);
         this.weight = w;
         this.max_acceleration = ma;
         this.repetitions = r;
@@ -55,27 +45,23 @@ public class OverheadPressExerciseData extends ExerciseData{
         values.put("repetitions", this.repetitions);
         values.put("mean_acceleration", this.mean_acceleration);
         values.put("max_acceleration", this.max_acceleration);
+        values.put("time_stamp", super.getTimeStamp());
         return values;
     }
 
-    @Override
-    public DataPoint getExerciseMetrics(String xMetric, String yMetric) {
-        float x = 0;
-        float y = 0;
+    public static ExerciseData deserealize(DocumentSnapshot document){
+        float weight = document.getDouble("weight").floatValue();
+        int repetitions = Math.toIntExact(document.getLong("repetitions"));
+        float mean_acceleration = document.getDouble("mean_acceleration").floatValue();
+        float max_acceleration = document.getDouble("max_acceleration").floatValue();
+        long time_stamp = document.getLong("time_stamp");
+        System.out.println("OHP:" + weight + "; reps: " + repetitions + "; mean_acc: " + mean_acceleration + "; max_acc" + max_acceleration + "time_stamp: " + time_stamp);
+        return new OverheadPressExerciseData(weight, max_acceleration, repetitions, mean_acceleration, time_stamp);
+    }
 
-        switch (xMetric){
-            case ("Weight"):
-                x = this.weight;
-                break;
-            case ("Repetitions"):
-                x = this.repetitions;
-                break;
-            case ("Mean Acceleration"):
-                x = this.mean_acceleration;
-                break;
-            case ("Maximum Acceleration"):
-                x = this.max_acceleration;
-        }
+    @Override
+    public float getExerciseMetrics(String yMetric) {
+        float y = 0;
 
         switch (yMetric){
             case ("Weight"):
@@ -91,11 +77,15 @@ public class OverheadPressExerciseData extends ExerciseData{
                 y = this.max_acceleration;
         }
 
-        return new DataPoint(x,y);
+        return y;
     }
 
     public List<String> getExerciseProgressMetrics(){
         return Arrays.asList("Weight", "Repetitions", "Mean Acceleration", "Maximum Acceleration");
+    }
+
+    public List<String> getExerciseProgressMetricsAbrv(){
+        return Arrays.asList("Weight", "Reps", "Mean Acc", "Max Acc");
     }
 
     public float getWeight() {

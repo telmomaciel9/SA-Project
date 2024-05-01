@@ -1,12 +1,7 @@
-package com.example.projectjava.data;
+package com.example.projectjava.data.defaultExercises;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
-
-import com.example.projectjava.data.DatabaseHelper;
 import com.example.projectjava.data.ExerciseData;
-import com.github.mikephil.charting.data.Entry;
-import com.jjoe64.graphview.series.DataPoint;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,18 +13,13 @@ public class RunningExerciseData extends ExerciseData {
     private float distance;
     private float avg_velocity;
     private float max_velocity;
-    public RunningExerciseData() {
-        super("Running");
-    }
-    public RunningExerciseData(float distance, float avg_velocity, float max_velocity) {
-        super("Running");
-        this.distance = distance;
-        this.avg_velocity = avg_velocity;
-        this.max_velocity = max_velocity;
+
+    public RunningExerciseData(){
+        super("Running", -1);
     }
 
-    public RunningExerciseData(String id, float distance, float avg_velocity, float max_velocity) {
-        super(id, "Running");
+    public RunningExerciseData(float distance, float avg_velocity, float max_velocity, long time_stamp) {
+        super("Running", time_stamp);
         this.distance = distance;
         this.avg_velocity = avg_velocity;
         this.max_velocity = max_velocity;
@@ -52,25 +42,21 @@ public class RunningExerciseData extends ExerciseData {
         values.put("distance", this.distance);
         values.put("avg_velocity", this.avg_velocity);
         values.put("max_velocity", this.max_velocity);
+        values.put("time_stamp", super.getTimeStamp());
         return values;
     }
 
-    @Override
-    public DataPoint getExerciseMetrics(String xMetric, String yMetric) {
-        float x = 0;
-        float y = 0;
+    public static ExerciseData deserealize(DocumentSnapshot document){
+        float distance = document.getDouble("distance").floatValue();
+        float avg_vel = document.getDouble("avg_velocity").floatValue();
+        float max_vel = document.getDouble("max_velocity").floatValue();
+        long time_stamp = document.getLong("time_stamp");
+        return new RunningExerciseData(distance, avg_vel, max_vel, time_stamp);
+    }
 
-        switch (xMetric){
-            case ("Distance"):
-                x = this.distance;
-                break;
-            case ("Average Velocity"):
-                x = this.avg_velocity;
-                break;
-            case ("Maximum Velocitiy"):
-                x = this.max_velocity;
-                break;
-        }
+    @Override
+    public float getExerciseMetrics(String yMetric) {
+        float y = 0;
 
         switch (yMetric){
             case ("Distance"):
@@ -84,11 +70,15 @@ public class RunningExerciseData extends ExerciseData {
                 break;
         }
 
-        return new DataPoint(x,y);
+        return y;
     }
 
     public List<String> getExerciseProgressMetrics(){
         return Arrays.asList("Distance", "Average Velocity", "Maximum Velocitiy");
+    }
+
+    public List<String> getExerciseProgressMetricsAbrv(){
+        return Arrays.asList("Distance", "Avg Vel", "Max Vel");
     }
 
     public float getDistance() {

@@ -13,10 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectjava.R;
 import com.example.projectjava.UI.MainActivity;
-import com.example.projectjava.UI.running.RunResultsActivity;
-import com.example.projectjava.data.BenchExerciseData;
+import com.example.projectjava.data.defaultExercises.BenchExerciseData;
 import com.example.projectjava.data.DatabaseHelper;
-import com.example.projectjava.data.RunningExerciseData;
+
+import java.time.Instant;
 
 public class BenchResultsActivity extends AppCompatActivity {
     private TextView textViewBenchStats;
@@ -59,7 +59,13 @@ public class BenchResultsActivity extends AppCompatActivity {
             int reps = Integer.parseInt(editTextReps.getText().toString().trim());
             float weight = Float.parseFloat(editTextWeight.getText().toString().trim());
 
-            BenchExerciseData exercise = new BenchExerciseData(weight, maxAcceleration, reps, maxAcceleration);
+            Instant instant = null;
+            long timeStamp = -1;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                instant = Instant.now();
+                timeStamp = instant.getEpochSecond();
+            }
+            BenchExerciseData exercise = new BenchExerciseData(weight, maxAcceleration, reps, maxAcceleration, timeStamp);
             DatabaseHelper dh = DatabaseHelper.getInstance();
             dh.addExerciseData(exercise);
 

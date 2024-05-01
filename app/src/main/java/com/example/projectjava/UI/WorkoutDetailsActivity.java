@@ -61,6 +61,8 @@ public class WorkoutDetailsActivity extends AppCompatActivity implements Exercis
         textViewWorkoutType.setText(type);
         textViewWorkoutNotes.setText(notes);
 
+        Log.e("workout details", workoutId);
+
         db.getWorkoutExercises(this.workoutId).addOnSuccessListener(exercises -> {
             System.out.println("exercises: " + exercises);
             if(exercises != null){

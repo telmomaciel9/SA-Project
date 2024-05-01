@@ -3,7 +3,6 @@ package com.example.projectjava.UI.running;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -12,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.projectjava.R;
 import com.example.projectjava.UI.MainActivity;
 import com.example.projectjava.data.DatabaseHelper;
-import com.example.projectjava.data.RunningExerciseData;
+import com.example.projectjava.data.defaultExercises.RunningExerciseData;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,6 +20,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -58,7 +58,14 @@ public class RunResultsActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     private void saveData() {
-        RunningExerciseData exercise = new RunningExerciseData(distanceRan, averageVelocity, maxVelocity);
+        Instant instant = null;
+        long timeStamp = -1;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            instant = Instant.now();
+            timeStamp = instant.getEpochSecond();
+        }
+
+        RunningExerciseData exercise = new RunningExerciseData(distanceRan, averageVelocity, maxVelocity, timeStamp);
         DatabaseHelper dh = DatabaseHelper.getInstance();
         dh.addExerciseData(exercise);
         closeActivity();

@@ -42,15 +42,17 @@
         <activity android:name=".UI.WorkoutDetailsActivity"/>
         <activity android:name=".UI.WorkoutHistoryActivity"/>
         <activity android:name=".UI.MainActivity"/>
+        <activity android:name=".UI.WorkoutTypeActivity"/>
         <activity android:name=".UI.BeginningActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity android:name=".UI.auth.RegisterActivity"/>
         <activity android:name=".UI.auth.LoginActivity"/>
+        <activity android:name=".UI.auth.AuthenticationActivity"/>
         <!--
         <activity android:name=".UI.auth.AuthenticationActivity"
                   android:exported="true">
