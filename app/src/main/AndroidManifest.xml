@@ -42,6 +42,8 @@
         <activity android:name=".UI.WorkoutDetailsActivity"/>
         <activity android:name=".UI.WorkoutHistoryActivity"/>
         <activity android:name=".UI.MainActivity"/>
+        <activity android:name=".UI.WorkoutPremadeDetailsActivity"/>
+        <activity android:name=".UI.WorkoutPremadeActivity"/>
         <activity android:name=".UI.WorkoutTypeActivity"/>
         <activity android:name=".UI.BeginningActivity"
             android:exported="true">

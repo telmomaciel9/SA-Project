@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/topContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Spinner
+            android:id="@+id/spinnerExerciseType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnAddPremadeExercise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add exercise"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/topContainer"
+        tools:layout_editor_absoluteX="20dp">
+
+        <EditText
+            android:id="@+id/editTextAttribute1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:hint="teste"/>
+
+        <EditText
+            android:id="@+id/editTextAttribute2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:hint="teste"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
