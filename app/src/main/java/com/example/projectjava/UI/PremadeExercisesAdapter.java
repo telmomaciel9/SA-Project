@@ -45,6 +45,10 @@ public class PremadeExercisesAdapter extends RecyclerView.Adapter<PremadeExercis
         notifyDataSetChanged();
     }
 
+    public List<PremadeExercise> getPremadeExercises(){
+        return this.exercises;
+    }
+
     static class PremadeExercisesViewHolder extends RecyclerView.ViewHolder {
         TextView tvExerciseName;
         TextView tvPremadeMetrics;

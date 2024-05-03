@@ -29,7 +29,7 @@ public class EndWorkoutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                mNotificationManager.cancel(0);
+                mNotificationManager.cancel(1);
                 String notes = editTextNotes.getText().toString();
                 String type = editTextType.getText().toString();
 

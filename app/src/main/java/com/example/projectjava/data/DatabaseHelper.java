@@ -19,10 +19,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class DatabaseHelper{
     private static DatabaseHelper instance;
@@ -31,8 +34,10 @@ public class DatabaseHelper{
     private static String premade_workout_table_name = "premade_workouts";
     private static String exercises_table_name = "exercises";
     private static String premade_exercises_table_name = "premade_exercises";
-    private ArrayList<ExerciseData> exerciseDataList;  // Holds exercise data temporarily
-    private ArrayList<PremadeExercise> premadeExerciseList;
+    private ArrayList<ExerciseData> exerciseDataList;       // Holds exercise data temporarily
+    private List<PremadeExercise> premadeExerciseList; // Holds premade exercises temporarily
+    private PremadeWorkout activePremadeWorkout;
+    private int premadeExerciseNr;
     private FirebaseFirestore dbFirebase;
 
     public static synchronized DatabaseHelper getInstance() {
@@ -45,7 +50,38 @@ public class DatabaseHelper{
     private DatabaseHelper() {
         this.exerciseDataList = null;
         this.premadeExerciseList = null;
+        this.activePremadeWorkout = null;
+        this.premadeExerciseNr = 0;
         this.dbFirebase = FirebaseFirestore.getInstance();
+    }
+
+    public void setActivePremadeWorkout(PremadeWorkout pw){
+        this.activePremadeWorkout = pw;
+        this.exerciseDataList = new ArrayList<>();
+    }
+
+    public PremadeWorkout getActivePremadeWorkout() {
+        return this.activePremadeWorkout;
+    }
+
+    public PremadeExercise getNextPremadeExercise(List<PremadeExercise> exercises){
+        PremadeExercise pe = null;
+        this.premadeExerciseNr++;
+
+        int count = 0;
+        for(PremadeExercise pes: exercises){
+            count += pes.getSets();
+            if(count > this.premadeExerciseNr){
+                return pes;
+            }
+        }
+        return pe;
+    }
+
+    // Chamar quando um premade workout acabar
+    public void endPremadeWorkout(){
+        this.activePremadeWorkout = null;
+        this.premadeExerciseNr = 0;
     }
 
     public void addPremadeExercise(PremadeExercise pe){
@@ -89,6 +125,7 @@ public class DatabaseHelper{
                     .addOnSuccessListener(documentReference -> Log.d("DatabaseHelper", "Exercise saved with ID: " + documentReference.getId()))
                     .addOnFailureListener(e -> Log.w("DatabaseHelper", "Error adding exercise document", e));
         }
+        this.premadeExerciseList = null;
     }
 
     public Task<List<PremadeWorkout>> getAllPremadeWorkouts(){
@@ -203,6 +240,19 @@ public class DatabaseHelper{
                 Log.e("DatabaseHelper", "Error retrieving exercises: ", task.getException());
                 throw task.getException();
             }
+            for(PremadeExercise pe: exercises){
+                System.out.println(pe);
+            }
+            Collections.sort(exercises, new Comparator<PremadeExercise>() {
+                @Override
+                public int compare(PremadeExercise ex1, PremadeExercise ex2) {
+                    return Integer.compare(ex1.getOrder(), ex2.getOrder());
+                }
+            });
+            for(PremadeExercise pe: exercises){
+                System.out.println(pe);
+            }
+
             return exercises;
         });
         return exercisesTask;

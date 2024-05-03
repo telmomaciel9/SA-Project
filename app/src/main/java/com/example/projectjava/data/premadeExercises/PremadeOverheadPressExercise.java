@@ -23,11 +23,14 @@ public class PremadeOverheadPressExercise extends PremadeExercise {
         map.put("exercise_name", table_name);
         map.put("repetitions", this.reps);
         map.put("sets", this.sets);
+        map.put("order", super.getOrder());
         return map;
     }
 
     public static PremadeExercise deserealize(DocumentSnapshot document){
-        return new PremadeOverheadPressExercise(Math.toIntExact(document.getLong("repetitions")), Math.toIntExact(document.getLong("sets")));
+        PremadeExercise pe = new PremadeOverheadPressExercise(Math.toIntExact(document.getLong("repetitions")), Math.toIntExact(document.getLong("sets")));
+        pe.setOrder(Math.toIntExact(document.getLong("order")));
+        return pe;
     }
 
     public Map<String, Float> getMetrics(){
@@ -35,5 +38,9 @@ public class PremadeOverheadPressExercise extends PremadeExercise {
         metrics.put("Repetitions", (float) reps);
         metrics.put("Sets", (float) sets);
         return metrics;
+    }
+
+    public int getSets(){
+        return this.sets;
     }
 }

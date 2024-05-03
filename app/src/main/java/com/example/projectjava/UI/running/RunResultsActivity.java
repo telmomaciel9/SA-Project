@@ -3,14 +3,22 @@ package com.example.projectjava.UI.running;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectjava.R;
+import com.example.projectjava.UI.EndWorkoutActivity;
 import com.example.projectjava.UI.MainActivity;
+import com.example.projectjava.UI.bench.BenchActivity;
+import com.example.projectjava.UI.bench.BenchResultsActivity;
+import com.example.projectjava.UI.overheadPress.OverheadPressActivity;
+import com.example.projectjava.UI.overheadPress.OverheadPressResultsActivity;
 import com.example.projectjava.data.DatabaseHelper;
+import com.example.projectjava.data.PremadeExercise;
+import com.example.projectjava.data.PremadeWorkout;
 import com.example.projectjava.data.defaultExercises.RunningExerciseData;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,19 +37,22 @@ public class RunResultsActivity extends AppCompatActivity implements OnMapReadyC
     private TextView textViewRunStats;
     private ArrayList<LatLng> pathPoints;
     private float maxVelocity, averageVelocity, distanceRan;
-
+    private DatabaseHelper dh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_run_results);
-        initViews();
+
+        dh = DatabaseHelper.getInstance();
+        PremadeWorkout pw = dh.getActivePremadeWorkout();
+        initViews(pw);
     }
 
-    private void initViews() {
+    private void initViews(PremadeWorkout pw) {
         textViewRunStats = findViewById(R.id.textViewRunStats);
         setupRun();
-        findViewById(R.id.btnSave).setOnClickListener(v -> saveData());
-        findViewById(R.id.btnGoBack).setOnClickListener(v -> confirmExit());
+        findViewById(R.id.btnSave).setOnClickListener(v -> saveData(pw));
+        findViewById(R.id.btnGoBack).setOnClickListener(v -> confirmExit(pw));
     }
 
     private void setupRun() {
@@ -57,7 +68,7 @@ public class RunResultsActivity extends AppCompatActivity implements OnMapReadyC
         }
     }
 
-    private void saveData() {
+    private void saveData(PremadeWorkout pw) {
         Instant instant = null;
         long timeStamp = -1;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -68,22 +79,55 @@ public class RunResultsActivity extends AppCompatActivity implements OnMapReadyC
         RunningExerciseData exercise = new RunningExerciseData(distanceRan, averageVelocity, maxVelocity, timeStamp);
         DatabaseHelper dh = DatabaseHelper.getInstance();
         dh.addExerciseData(exercise);
-        closeActivity();
+        closeActivity(pw);
     }
 
-    private void confirmExit() {
+    private void confirmExit(PremadeWorkout pw) {
         new AlertDialog.Builder(this)
                 .setTitle("Confirm Exit")
                 .setMessage("Are you sure you want to leave without saving?")
-                .setPositiveButton("Yes", (dialog, id) -> closeActivity())
+                .setPositiveButton("Yes", (dialog, id) -> closeActivity(pw))
                 .setNegativeButton("No", (dialog, id) -> dialog.dismiss())
                 .show();
     }
 
-    private void closeActivity() {
-        Intent intent = new Intent(RunResultsActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // Clears all activities on top of MainActivity
-        startActivity(intent);
+    private void closeActivity(PremadeWorkout pw) {
+        if(pw == null){
+            Intent intent = new Intent(RunResultsActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  // Clears all activities on top of MainActivity
+            startActivity(intent);
+        }else{
+            dh.getPremadeWorkoutExercises(pw.getId()).addOnSuccessListener(premade_exercises -> {
+                if(premade_exercises != null){
+                    PremadeExercise pe = dh.getNextPremadeExercise(premade_exercises);
+                    if(pe != null){
+                        switch (pe.getExerciseName()){
+                            case "Bench Press":
+                                startActivity(new Intent(RunResultsActivity.this, BenchActivity.class));
+                                break;
+                            case "Overhead Press":
+                                startActivity(new Intent(RunResultsActivity.this, OverheadPressActivity.class));
+                                break;
+                            case "Running":
+                                startActivity(new Intent(RunResultsActivity.this, RunActivity.class));
+                                break;
+                            default:
+                                System.out.println("Invalid premade exercise_name!");
+                                break;
+                        }
+                    }else{
+                        dh.endPremadeWorkout();
+                        Intent intent = new Intent(RunResultsActivity.this, EndWorkoutActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                } else {
+                    Log.e("RunResultsActivity", "Problema ao retirar exercícios do workout " + pw.getId());
+                }
+            }).addOnFailureListener(e -> {
+                Log.e("DatabaseHelper", "Failed getting premade workout exercises");
+            });
+        }
     }
 
     @Override

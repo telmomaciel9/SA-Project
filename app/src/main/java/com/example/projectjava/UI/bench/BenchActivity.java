@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,8 @@ import android.widget.TextView;
 
 import com.example.projectjava.R;
 import com.example.projectjava.UI.Timer;
+import com.example.projectjava.data.DatabaseHelper;
+import com.example.projectjava.data.PremadeWorkout;
 
 public class BenchActivity extends Activity implements SensorEventListener {
     // Timer

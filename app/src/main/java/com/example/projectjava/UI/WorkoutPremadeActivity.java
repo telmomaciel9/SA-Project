@@ -37,7 +37,6 @@ public class WorkoutPremadeActivity extends AppCompatActivity implements Premade
     private Button btnAddPremadeWorkout;
     private EditText editTextWorkoutName;
     private DatabaseHelper db;
-    private List<PremadeWorkout> premadeWorkouts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +58,6 @@ public class WorkoutPremadeActivity extends AppCompatActivity implements Premade
     public void setUpRecyclerView(){
         db.getAllPremadeWorkouts().addOnSuccessListener(premade_workouts -> {
             if(premade_workouts != null){
-                System.out.println(premade_workouts);
-                premadeWorkouts = premade_workouts;
                 recyclerViewPremadeWorkouts = findViewById(R.id.recyclerViewPremadeWorkouts);
                 recyclerViewPremadeWorkouts.setLayoutManager(new LinearLayoutManager(this));
 
@@ -72,7 +69,6 @@ public class WorkoutPremadeActivity extends AppCompatActivity implements Premade
         }).addOnFailureListener(e -> {
             Log.e("WorkoutPremadeActivity", "Failed getting premade workouts");
         });
-
     }
 
     // Set the default fragment to be the add premade exercise
@@ -121,10 +117,24 @@ public class WorkoutPremadeActivity extends AppCompatActivity implements Premade
                 if(pelf != null && pelf.nrPremadeExercises() > 0){
                     String workoutName = editTextWorkoutName.getText().toString();
                     PremadeWorkout pw = new PremadeWorkout(workoutName);
+
+                    List<PremadeExercise> pes = db.getPremadeExerciseList();
+                    int count = 1;
+                    for(PremadeExercise pe: pes){
+                        pe.setOrder(count);
+                        count++;
+                    }
                     db.addPremadeWorkout(pw);
 
-                    premadeWorkouts.add(pw);
-                    adapter.updateData(premadeWorkouts);
+                    db.getAllPremadeWorkouts().addOnSuccessListener(premade_workouts -> {
+                        if(premade_workouts != null){
+                            adapter.updateData(premade_workouts);
+                        } else {
+                            Log.e("WorkoutPremadeActivity", "Problema ao recolher premade workouts ");
+                        }
+                    }).addOnFailureListener(e -> {
+                        Log.e("WorkoutPremadeActivity", "Failed getting premade workouts");
+                    });
 
                     editTextWorkoutName.setHint("Workout name.");
                     pelf.resetList();

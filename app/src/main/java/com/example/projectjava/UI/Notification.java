@@ -20,6 +20,7 @@ import com.example.projectjava.R;
 public class Notification {
     private Context context;
     private Activity activity;
+
     public Notification(Context context, Activity activity){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
             if(ContextCompat.checkSelfPermission(context,

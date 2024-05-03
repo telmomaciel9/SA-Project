@@ -12,7 +12,7 @@ public class PremadeBenchExercise extends PremadeExercise {
     private int sets;
 
     public PremadeBenchExercise(int reps, int sets){
-        super("Bench press");
+        super("Bench Press");
         this.reps = reps;
         this.sets = sets;
     }
@@ -23,11 +23,14 @@ public class PremadeBenchExercise extends PremadeExercise {
         map.put("exercise_name", table_name);
         map.put("repetitions", this.reps);
         map.put("sets", this.sets);
+        map.put("order", super.getOrder());
         return map;
     }
 
     public static PremadeExercise deserealize(DocumentSnapshot document){
-        return new PremadeBenchExercise(Math.toIntExact(document.getLong("repetitions")), Math.toIntExact(document.getLong("sets")));
+        PremadeExercise pe = new PremadeBenchExercise(Math.toIntExact(document.getLong("repetitions")), Math.toIntExact(document.getLong("sets")));
+        pe.setOrder(Math.toIntExact(document.getLong("order")));
+        return pe;
     }
 
     public Map<String, Float> getMetrics(){
@@ -35,5 +38,9 @@ public class PremadeBenchExercise extends PremadeExercise {
         metrics.put("Repetitions", (float) reps);
         metrics.put("Sets", (float) sets);
         return metrics;
+    }
+
+    public int getSets(){
+        return this.sets;
     }
 }

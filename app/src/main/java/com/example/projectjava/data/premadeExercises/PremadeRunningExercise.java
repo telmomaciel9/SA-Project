@@ -23,11 +23,14 @@ public class PremadeRunningExercise extends PremadeExercise {
         map.put("exercise_name", table_name);
         map.put("distance", this.distance);
         map.put("avg_velocity", this.avg_velocity);
+        map.put("order", super.getOrder());
         return map;
     }
 
     public static PremadeExercise deserealize(DocumentSnapshot document){
-        return new PremadeRunningExercise(document.getDouble("distance").floatValue(), document.getDouble("avg_velocity").floatValue());
+        PremadeExercise pe = new PremadeRunningExercise(document.getDouble("distance").floatValue(), document.getDouble("avg_velocity").floatValue());
+        pe.setOrder(Math.toIntExact(document.getLong("order")));
+        return pe;
     }
 
     public Map<String, Float> getMetrics(){
@@ -35,5 +38,9 @@ public class PremadeRunningExercise extends PremadeExercise {
         metrics.put("Distance", distance);
         metrics.put("Average Velocity", avg_velocity);
         return metrics;
+    }
+
+    public int getSets(){
+        return 1;
     }
 }

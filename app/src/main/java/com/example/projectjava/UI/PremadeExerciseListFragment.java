@@ -41,5 +41,6 @@ public class PremadeExerciseListFragment extends Fragment{
     public void resetList(){
         this.adapter.updateData(new ArrayList<>());
     }
+
     public int nrPremadeExercises(){return this.adapter.getItemCount();}
 }
