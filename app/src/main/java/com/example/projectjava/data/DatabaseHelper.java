@@ -148,7 +148,7 @@ public class DatabaseHelper{
         }
 
         // Reference to the 'exercises' collection filtered by workoutId
-        Query query = dbFirebase.collection(premade_workout_table_name);
+        Query query = dbFirebase.collection(premade_workout_table_name).whereEqualTo("userId", currentUser.getUid());
 
         Task<List<PremadeWorkout>> premadeWorkoutsTask = query.get().continueWith(task -> {
             List<PremadeWorkout> premadeWorkouts = new ArrayList<>();
