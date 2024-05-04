@@ -10,7 +10,7 @@
         android:layout_height="70dp" />
 
     <TextView
-        android:id="@+id/title"
+        android:id="@id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/details"
@@ -19,30 +19,73 @@
         android:layout_marginTop="20dp"
         android:layout_marginHorizontal="20dp"/>
 
-    <TextView
-        android:id="@+id/textViewWorkoutType"
+    <LinearLayout
+        android:id="@+id/llTypeName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:text="Teste"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="20dp"/>
+        android:orientation="horizontal"
+        android:layout_below="@+id/title">
+
+        <TextView
+            android:id="@+id/textViewWorkoutType"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:text="Type"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/textViewWorkoutName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="workout name"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llDateDuration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/llTypeName">
+
+        <TextView
+            android:id="@+id/textViewWorkoutBeginDate"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/textViewWorkoutDuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Duration"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textViewWorkoutNotes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewWorkoutType"
-        android:text="notas"
+        android:layout_below="@id/llDateDuration"
+        android:text="notes"
         android:textSize="18dp"
         android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="20dp"/>
+        android:layout_marginHorizontal="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/exercisesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/textViewWorkoutNotes"/>
+        android:layout_margin="10dp"
+        android:layout_below="@id/textViewWorkoutNotes" />
 </RelativeLayout>

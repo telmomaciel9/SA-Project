@@ -58,19 +58,30 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.Workou
 
     static class WorkoutViewHolder extends RecyclerView.ViewHolder {
         TextView textViewWorkoutType;
+        TextView textViewWorkoutName;
+        TextView textViewWorkoutBeginDate;
+        TextView textViewWorkoutDuration;
         TextView textViewWorkoutNotes;
         CardView cardView;
 
         WorkoutViewHolder(View itemView) {
             super(itemView);
             textViewWorkoutType = itemView.findViewById(R.id.textViewWorkoutType);
+            textViewWorkoutName = itemView.findViewById(R.id.textViewWorkoutName);
             textViewWorkoutNotes = itemView.findViewById(R.id.textViewWorkoutNotes);
+            textViewWorkoutBeginDate = itemView.findViewById(R.id.textViewWorkoutBeginDate);
+            textViewWorkoutDuration = itemView.findViewById(R.id.textViewWorkoutDuration);
             cardView = itemView.findViewById(R.id.main_container);
         }
 
         void bind(Workout workout) {
             String type = "Type: " + workout.getType();
             textViewWorkoutType.setText(type);
+            String name = "Name: " + workout.getWorkout_name();
+            textViewWorkoutName.setText(name);
+            textViewWorkoutBeginDate.setText(workout.getBegin_date());
+            String duration = "Duration: " + workout.getDuration() + " seconds";
+            textViewWorkoutDuration.setText(duration);
             String notes = "Notes: " + workout.getNotes();
             textViewWorkoutNotes.setText(notes);
         }

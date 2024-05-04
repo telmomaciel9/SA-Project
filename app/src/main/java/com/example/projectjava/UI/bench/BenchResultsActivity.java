@@ -70,10 +70,8 @@ public class BenchResultsActivity extends AppCompatActivity {
 
             Instant instant = null;
             long timeStamp = -1;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                instant = Instant.now();
-                timeStamp = instant.getEpochSecond();
-            }
+            instant = Instant.now();
+            timeStamp = instant.getEpochSecond();
             BenchExerciseData exercise = new BenchExerciseData(weight, maxAcceleration, reps, meanAcceleration, timeStamp);
             dh.addExerciseData(exercise);
 
@@ -128,10 +126,11 @@ public class BenchResultsActivity extends AppCompatActivity {
                                 System.out.println("Invalid premade exercise_name!");
                                 break;
                         }
-                    }else{
-                        dh.endPremadeWorkout();
+                    }else{ // Premade workout has ended
+                        // dh.endPremadeWorkout();
                         Intent intent = new Intent(BenchResultsActivity.this, EndWorkoutActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("premade_workout", true);
                         startActivity(intent);
                     }
                 } else {

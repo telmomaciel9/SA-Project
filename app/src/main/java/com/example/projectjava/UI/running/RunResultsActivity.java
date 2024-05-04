@@ -116,9 +116,10 @@ public class RunResultsActivity extends AppCompatActivity implements OnMapReadyC
                                 break;
                         }
                     }else{
-                        dh.endPremadeWorkout();
+                        // dh.endPremadeWorkout();
                         Intent intent = new Intent(RunResultsActivity.this, EndWorkoutActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("premade_workout", true);
                         startActivity(intent);
                     }
                 } else {

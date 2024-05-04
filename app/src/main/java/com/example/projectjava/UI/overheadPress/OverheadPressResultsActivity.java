@@ -130,10 +130,11 @@ public class OverheadPressResultsActivity extends AppCompatActivity {
                                 System.out.println("Invalid premade exercise_name!");
                                 break;
                         }
-                    }else{
-                        dh.endPremadeWorkout();
+                    }else{ // Premade workout has ended
+                        // dh.endPremadeWorkout();
                         Intent intent = new Intent(OverheadPressResultsActivity.this, EndWorkoutActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("premade_workout", true);
                         startActivity(intent);
                     }
                 } else {

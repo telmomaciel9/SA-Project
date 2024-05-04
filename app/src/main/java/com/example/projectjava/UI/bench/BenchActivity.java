@@ -78,7 +78,7 @@ public class BenchActivity extends Activity implements SensorEventListener {
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
-            float currentAcceleration = (float) Math.sqrt(x * x + y * y + z * z) - SensorManager.GRAVITY_EARTH;
+            float currentAcceleration = Math.abs((float) Math.sqrt(x * x + y * y + z * z) - SensorManager.GRAVITY_EARTH);
 
             if (currentAcceleration > maxAcceleration) {
                 maxAcceleration = currentAcceleration;

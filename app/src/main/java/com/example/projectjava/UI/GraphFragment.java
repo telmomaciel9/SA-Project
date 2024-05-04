@@ -91,79 +91,30 @@ public class GraphFragment extends Fragment {
         });
     }
 
-    public void loadGraph(ExerciseData exercise){
+    public void loadGraph(ExerciseData exercise) {
         List<DataPoint> dataPoints = new ArrayList<>();
         series.resetData(new DataPoint[]{});
 
         db.getExercisesByType(exercise).addOnSuccessListener(exercises -> {
-            if(exercises != null){
-                // Fazer alguma cena com os exercícios aqui!
-                Collections.sort(exercises, new Comparator<ExerciseData>() {
-                    @Override
-                    public int compare(ExerciseData ex1, ExerciseData ex2) {
-                        return Long.compare((long) ex1.getTimeStamp(), (long) ex2.getTimeStamp());
-                    }
-                });
-
+            if (exercises != null) {
                 float count = 1;
-                for(ExerciseData ex: exercises){
+                for (ExerciseData ex : exercises) {
                     System.out.println("Exercise details: " + ex.getTimeStamp());
                     series.appendData(new DataPoint(count, ex.getExerciseMetrics(selectedY)), false, 5);
                     count++;
                 }
 
                 graphView.addSeries(series);
-                graphView.setTitle(selectedY);
-                graphView.getViewport().setXAxisBoundsManual(true);
-                graphView.getViewport().setMinY(0);
-                graphView.getViewport().setMaxY(exercises.get(exercises.size()-1).getExerciseMetrics(selectedY)+5);
+                graphView.setTitle(selectedY + " progress along time.");
+                //graphView.getViewport().setYAxisBoundsManual(true);
+                //graphView.getViewport().setMinY(0);
+                //graphView.getViewport().setMaxY(exercises.get(exercises.size() - 1).getExerciseMetrics(selectedY) + 5);
             } else {
                 Log.e("ExerciseDetails", "Problema ao exercícios por nome: " + exercise.getExerciseName());
             }
         }).addOnFailureListener(e -> {
             Log.e("ExerciseDetails", "Failed getting exercises by name");
-            Toast.makeText(getContext(), "Can't load exercises",  Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Can't load exercises", Toast.LENGTH_SHORT).show();
         });
     }
-
-    /*
-    public void prepareData(List<Entry> entries, List<ExerciseData> exercises){
-        // Variáveis para fazer o scaling
-        float maxX = Float.MIN_VALUE;
-        float minX = Float.MAX_VALUE;
-        float maxY = Float.MIN_VALUE;
-        float minY = Float.MAX_VALUE;
-
-        exercises = exercises.subList(0,3);
-
-        for(ExerciseData ex : exercises){
-            Entry e = ex.getExerciseProgressMetrics();
-            entries.add(e);
-            float x = e.getX();
-            float y = e.getY();
-            if(x > maxX){
-                maxX = x;
-            }
-            if(x < minX){
-                minX = x;
-            }
-
-            if(y > maxY){
-                maxY = y;
-            }
-            if(y < minY){
-                minY = y;
-            }
-        }
-
-        // scale data
-        for(Entry e : entries){
-            float x = e.getX();
-            float y = e.getY();
-            e.setX(((x-minX)/(maxX-minX))*10);
-            e.setY(((y-minY)/(maxY-minY))*10);
-            Log.e("Exercise details entries", e.toString());
-        }
-    }
-    */
 }

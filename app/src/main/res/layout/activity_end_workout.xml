@@ -23,11 +23,19 @@
             android:textSize="20dp"
             android:paddingBottom="30dp"/>
 
-        <EditText
-            android:id="@+id/editTextType"
+        <TextView
+            android:id="@+id/textViewWorkoutType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="What was the workout type?"
+            android:text="Manual or Premade"
+            android:textSize="17dp"
+            android:padding="30dp"/>
+
+        <EditText
+            android:id="@+id/editTextWorkoutName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Add your workout name"
             android:padding="30dp"/>
 
         <EditText

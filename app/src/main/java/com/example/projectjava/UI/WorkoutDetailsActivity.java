@@ -22,6 +22,9 @@ import java.util.List;
 public class WorkoutDetailsActivity extends AppCompatActivity implements ExercisesAdapter.OnItemClickListener{
     private DatabaseHelper db;
     private TextView textViewWorkoutType;
+    private TextView textViewWorkoutName;
+    private TextView textViewWorkoutBeginDate;
+    private TextView textViewWorkoutDuration;
     private TextView textViewWorkoutNotes;
     private RecyclerView exercisesRecyclerView;
     private ExercisesAdapter adapter;
@@ -30,8 +33,13 @@ public class WorkoutDetailsActivity extends AppCompatActivity implements Exercis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_details);
+
         this.db = DatabaseHelper.getInstance();
+
         textViewWorkoutType = findViewById(R.id.textViewWorkoutType);
+        textViewWorkoutName = findViewById(R.id.textViewWorkoutName);
+        textViewWorkoutBeginDate = findViewById(R.id.textViewWorkoutBeginDate);
+        textViewWorkoutDuration = findViewById(R.id.textViewWorkoutDuration);
         textViewWorkoutNotes = findViewById(R.id.textViewWorkoutNotes);
         exercisesRecyclerView = findViewById(R.id.exercisesRecyclerView);
 
@@ -57,8 +65,13 @@ public class WorkoutDetailsActivity extends AppCompatActivity implements Exercis
     private void setupUI(Workout workout) {
         this.workoutId = workout.getId();
         String type = "Type: " + workout.getType();
+        String name = "Name: " + workout.getWorkout_name();
+        String duration = "Duration: " + workout.getDuration() + " seconds";
         String notes = "Notes: " + workout.getNotes();
         textViewWorkoutType.setText(type);
+        textViewWorkoutName.setText(name);
+        textViewWorkoutBeginDate.setText(workout.getBegin_date());
+        textViewWorkoutDuration.setText(duration);
         textViewWorkoutNotes.setText(notes);
 
         Log.e("workout details", workoutId);

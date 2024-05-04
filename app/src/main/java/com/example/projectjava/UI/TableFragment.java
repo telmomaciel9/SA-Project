@@ -20,6 +20,8 @@ import com.example.projectjava.data.DatabaseHelper;
 import com.example.projectjava.data.ExerciseData;
 import com.jjoe64.graphview.series.DataPoint;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -45,14 +47,6 @@ public class TableFragment extends Fragment {
                         System.out.println("Exercise time_stamp: " + ex.getTimeStamp());
                         db.getExercisesByType(ex).addOnSuccessListener(exercises -> {
                             if(exercises != null){
-                                // Ordenar exercícios cronologicamente
-                                Collections.sort(exercises, new Comparator<ExerciseData>() {
-                                    @Override
-                                    public int compare(ExerciseData ex1, ExerciseData ex2) {
-                                        return Long.compare((long) ex1.getTimeStamp(), (long) ex2.getTimeStamp());
-                                    }
-                                });
-
                                 buildTable(exercises);
                             } else {
                                 Log.e("ExerciseDetails", "Problema ao exercícios por nome: " + ex.getExerciseName());
@@ -73,30 +67,51 @@ public class TableFragment extends Fragment {
     }
 
     public void buildTable(List<ExerciseData> exercises){
-        List<String> metrics = exercises.get(0).getExerciseProgressMetricsAbrv();
-        System.out.println(metrics);
+        List<String> metrics_abrv = exercises.get(0).getExerciseProgressMetricsAbrv();
+        List<String> metrics = exercises.get(0).getExerciseProgressMetrics();
+        List<TextView> maxMetrics_tvs = new ArrayList<>();
+        List<Float> maxMetrics = new ArrayList<>();
 
         TableRow tr = new TableRow(getContext());
-        for(String metric: metrics){
+        for(String metric: metrics_abrv){
             String m = "   " + metric + "   ";
             TextView tv = new TextView(getContext());
             tv.setText(m);
             tv.setTextColor(Color.WHITE);
             tr.addView(tv);
+            maxMetrics.add(Float.MIN_VALUE);
+            maxMetrics_tvs.add(new TextView(getContext()));
         }
         tl.addView(tr);
 
+        DecimalFormat decimalFormat = new DecimalFormat();
+        decimalFormat.setMaximumFractionDigits(5);
+        decimalFormat.setMinimumFractionDigits(0);
+
         for(ExerciseData ex: exercises){
             tr = new TableRow(getContext());
+
+            int i = 0;
             for(String metric: metrics){
                 TextView tv = new TextView(getContext());
-                System.out.println(ex.getExerciseMetrics("Repetitions"));
-                tv.setText("" + ex.getExerciseMetrics(metric));
+                float value = ex.getExerciseMetrics(metric);
+                String value_string = decimalFormat.format(value);
+                tv.setText(value_string);
                 tv.setTextColor(Color.WHITE);
                 tv.setGravity(Gravity.CENTER);
                 tr.addView(tv);
+
+                if(value > maxMetrics.get(i)){
+                    maxMetrics.set(i, value);
+                    maxMetrics_tvs.set(i, tv);
+                }
+                i++;
             }
             tl.addView(tr);
+        }
+        // (PR's in app's theme color)
+        for(TextView tv: maxMetrics_tvs){
+            tv.setTextColor(Color.parseColor("#BC50B2"));
         }
     }
 }

@@ -14,16 +14,28 @@ import com.example.projectjava.R;
 import com.example.projectjava.data.DatabaseHelper;
 
 public class EndWorkoutActivity extends AppCompatActivity {
+    private TextView textViewWorkoutType;
+    private EditText editTextWorkoutName;
     private EditText editTextNotes;
-    private EditText editTextType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_workout);
+        textViewWorkoutType = findViewById(R.id.textViewWorkoutType);
+        editTextWorkoutName = findViewById(R.id.editTextWorkoutName);
         editTextNotes = findViewById(R.id.editTextNotes);
-        editTextType = findViewById(R.id.editTextType);
         DatabaseHelper db = DatabaseHelper.getInstance();
+
+        boolean premade_workout = getIntent().getBooleanExtra("premade_workout", false);
+        if(premade_workout){
+            textViewWorkoutType.setText("Premade");
+            editTextWorkoutName.setText(db.getActivePremadeWorkout().getWorkout_name());
+            editTextWorkoutName.setEnabled(false);
+            db.endPremadeWorkout();
+        }else{
+            textViewWorkoutType.setText("Manual");
+        }
 
         findViewById(R.id.btnSaveWorkout).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,9 +43,10 @@ public class EndWorkoutActivity extends AppCompatActivity {
                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 mNotificationManager.cancel(1);
                 String notes = editTextNotes.getText().toString();
-                String type = editTextType.getText().toString();
+                String type = textViewWorkoutType.getText().toString();
+                String workout_name = editTextWorkoutName.getText().toString();
 
-                db.finishWorkout(type, notes);
+                db.finishWorkout(type, notes, workout_name);
 
                 startActivity(new Intent(EndWorkoutActivity.this, BeginningActivity.class));
             }
@@ -44,7 +57,7 @@ public class EndWorkoutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                mNotificationManager.cancel(0);
+                mNotificationManager.cancel(1);
 
                 startActivity(new Intent(EndWorkoutActivity.this, BeginningActivity.class));
             }

@@ -1,5 +1,6 @@
 package com.example.projectjava.data;
 
+import android.text.format.Time;
 import android.util.Log;
 
 import com.example.projectjava.data.defaultExercises.BenchExerciseData;
@@ -17,14 +18,23 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.type.DateTime;
 
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class DatabaseHelper{
@@ -35,9 +45,10 @@ public class DatabaseHelper{
     private static String exercises_table_name = "exercises";
     private static String premade_exercises_table_name = "premade_exercises";
     private ArrayList<ExerciseData> exerciseDataList;       // Holds exercise data temporarily
-    private List<PremadeExercise> premadeExerciseList; // Holds premade exercises temporarily
-    private PremadeWorkout activePremadeWorkout;
-    private int premadeExerciseNr;
+    private List<PremadeExercise> premadeExerciseList;      // Holds premade exercises temporarily
+    private PremadeWorkout activePremadeWorkout;            // Active premade workout (a valid PremadeWorkout or null)
+    private int premadeExerciseNr;                          // Tracks the current and next PremadeExercises in a PremadeWorkout
+    private LocalDateTime activeWorkoutBeginDate;
     private FirebaseFirestore dbFirebase;
 
     public static synchronized DatabaseHelper getInstance() {
@@ -49,6 +60,7 @@ public class DatabaseHelper{
 
     private DatabaseHelper() {
         this.exerciseDataList = null;
+        this.activeWorkoutBeginDate = null;
         this.premadeExerciseList = null;
         this.activePremadeWorkout = null;
         this.premadeExerciseNr = 0;
@@ -56,6 +68,7 @@ public class DatabaseHelper{
     }
 
     public void setActivePremadeWorkout(PremadeWorkout pw){
+        this.activeWorkoutBeginDate = LocalDateTime.now();
         this.activePremadeWorkout = pw;
         this.exerciseDataList = new ArrayList<>();
     }
@@ -259,14 +272,20 @@ public class DatabaseHelper{
     }
 
     public void beginWorkout() {
+        this.activeWorkoutBeginDate = LocalDateTime.now();
         this.exerciseDataList = new ArrayList<>();
     }
 
     // add workout and its exercises to firebase database
-    public void finishWorkout(String type, String notes) {
+    public void finishWorkout(String type, String notes, String workout_name) {
         Map<String, Object> workout = new HashMap<>();
+        workout.put("workout_name", workout_name);
         workout.put("type", type);
         workout.put("notes", notes);
+
+        long duration = Duration.between(this.activeWorkoutBeginDate, LocalDateTime.now()).getSeconds();
+        workout.put("begin_date", this.activeWorkoutBeginDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        workout.put("duration", duration);
         String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         workout.put("userId", userId); // User is logged in at this point
 
@@ -278,6 +297,7 @@ public class DatabaseHelper{
                     saveExercises(workoutId);
                 })
                 .addOnFailureListener(e -> Log.e("DatabaseHelper", "Error adding document", e));
+        this.activeWorkoutBeginDate = null;
     }
 
     private void saveExercises(String workoutId) {
@@ -315,9 +335,12 @@ public class DatabaseHelper{
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String id = document.getId();
+                                String workout_name = document.getString("workout_name");
                                 String type = document.getString("type");
                                 String notes = document.getString("notes");
-                                workouts.add(new Workout(id, type, notes));
+                                String begin_date = document.getString("begin_date");
+                                Long duration = document.getLong("duration");
+                                workouts.add(new Workout(id, type, notes, workout_name, begin_date, duration));
                             }
                             Log.w("DatabaseHelper", "Calling workouts callback ", task.getException());
                             callback.onCallback(workouts);
@@ -405,12 +428,10 @@ public class DatabaseHelper{
                                 break;
                         }
                         if (exercise != null) {
-                            System.out.println("Adding the exercise!");
-                            System.out.println("TimeStamp: " + exercise.getTimeStamp());
                             exercise.setId(document.getId());
                             exercises.add(exercise);
                         }else{
-                            System.out.println("Exercise is null!");
+                            Log.e("Database Helper", "exercise is null!");
                         }
                     }
                 } else {
@@ -420,6 +441,15 @@ public class DatabaseHelper{
                 Log.e("DatabaseHelper", "Error retrieving exercises: ", task.getException());
                 throw task.getException();
             }
+
+            // Return exercises ordered chronologically
+            Collections.sort(exercises, new Comparator<ExerciseData>() {
+                @Override
+                public int compare(ExerciseData ex1, ExerciseData ex2) {
+                    return Long.compare((long) ex1.getTimeStamp(), (long) ex2.getTimeStamp());
+                }
+            });
+
             return exercises;
         });
         return exercisesTask;
@@ -514,6 +544,15 @@ public class DatabaseHelper{
                 Log.e("DatabaseHelper", "Error retrieving exercises: ", task.getException());
                 throw task.getException();
             }
+
+            // Return exercises ordered chronologically
+            Collections.sort(exercises, new Comparator<ExerciseData>() {
+                @Override
+                public int compare(ExerciseData ex1, ExerciseData ex2) {
+                    return Long.compare((long) ex1.getTimeStamp(), (long) ex2.getTimeStamp());
+                }
+            });
+
             return exercises;
         });
         return exercisesTask;
