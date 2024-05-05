@@ -22,6 +22,7 @@ import androidx.core.app.ActivityCompat;
 
 // google maps
 import com.example.projectjava.R;
+import com.example.projectjava.UI.BottomNavigationView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -48,6 +49,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
 
     // Runnable to update the timer TextView
     private Runnable timerRunnable;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,8 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         buttonStartRun = findViewById(R.id.buttonStartRun);
         buttonFinishRun = findViewById(R.id.buttonFinishRun);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
+        bottomNavigationView = new BottomNavigationView(this, true);
 
         initializeActivity();
     }

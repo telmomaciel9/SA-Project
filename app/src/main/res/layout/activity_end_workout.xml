@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,53 +11,60 @@
         android:layout_height="70dp" />
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingBottom="30dp"
             android:text="Have you finished your workout?"
-            android:textSize="20dp"
-            android:paddingBottom="30dp"/>
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/textViewWorkoutType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="30dp"
             android:text="Manual or Premade"
-            android:textSize="17dp"
-            android:padding="30dp"/>
+            android:textSize="17dp" />
 
         <EditText
             android:id="@+id/editTextWorkoutName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Add your workout name"
-            android:padding="30dp"/>
+            android:padding="30dp" />
 
         <EditText
             android:id="@+id/editTextNotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Add the workout notes here."
-            android:padding="30dp"/>
+            android:padding="30dp" />
 
         <Button
             android:id="@+id/btnSaveWorkout"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Save Workout"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="30dp"
+            android:text="Save Workout" />
 
         <Button
+            android:id="@+id/btnCancelWorkout"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Cancel Workout"
-            android:id="@+id/btnCancelWorkout"/>
-
+            android:text="Cancel Workout" />
     </LinearLayout>
+
+    <com.example.projectjava.UI.BottomNavigationView
+        android:id="@+id/bottom_navigation_view"
+        layout="@layout/bottom_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

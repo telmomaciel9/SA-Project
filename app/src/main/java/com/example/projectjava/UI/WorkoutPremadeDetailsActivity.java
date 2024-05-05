@@ -32,6 +32,7 @@ public class WorkoutPremadeDetailsActivity extends AppCompatActivity {
     private PremadeExercisesAdapter adapter;
     private Button btnBeginPremadeWorkout;
     private Button btnSharePremadeWorkout;
+    private BottomNavigationView bottomNavigationView;
     private DatabaseHelper db;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +42,8 @@ public class WorkoutPremadeDetailsActivity extends AppCompatActivity {
         rvPremadeExercises = findViewById(R.id.rvPremadeExercises);
         btnBeginPremadeWorkout = findViewById(R.id.btnBeginPremadeWorkout);
         btnSharePremadeWorkout = findViewById(R.id.btnSharePremadeWorkout);
+
+        bottomNavigationView = new BottomNavigationView(this, false);
 
         db = DatabaseHelper.getInstance();
 

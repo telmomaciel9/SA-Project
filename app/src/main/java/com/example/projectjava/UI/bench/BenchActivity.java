@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.projectjava.R;
+import com.example.projectjava.UI.BottomNavigationView;
 import com.example.projectjava.UI.Timer;
 import com.example.projectjava.data.DatabaseHelper;
 import com.example.projectjava.data.PremadeWorkout;
@@ -31,7 +32,7 @@ public class BenchActivity extends Activity implements SensorEventListener {
     private float maxAcceleration;
     private float meanAcceleration;
     private int nrAccelerations;
-
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,8 @@ public class BenchActivity extends Activity implements SensorEventListener {
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        bottomNavigationView = new BottomNavigationView(this, true);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override

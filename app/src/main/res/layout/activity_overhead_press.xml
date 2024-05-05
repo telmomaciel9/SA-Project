@@ -54,4 +54,11 @@
             android:layout_marginTop="16dp"/>
 
     </LinearLayout>
+
+    <com.example.projectjava.UI.BottomNavigationView
+        android:id="@+id/bottom_navigation_view"
+        layout="@layout/bottom_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,6 +35,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
     private TextView exerciseStats;
     private Button btnTableGraph;
 
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +44,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
         exerciseTitle = findViewById(R.id.textViewExerciseTitle);
         exerciseStats = findViewById(R.id.textViewExerciseStats);
         btnTableGraph = findViewById(R.id.btnTableGraph);
+        bottomNavigationView = new BottomNavigationView(this, false);
 
         db = DatabaseHelper.getInstance();
         String exerciseId = getIntent().getStringExtra("exerciseId");

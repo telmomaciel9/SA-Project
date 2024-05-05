@@ -9,11 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.projectjava.R;
 
 public class MainActivity extends AppCompatActivity {
-
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        bottomNavigationView = new BottomNavigationView(this, true);
 
         findViewById(R.id.btnCardio).setOnClickListener(new View.OnClickListener() {
             @Override

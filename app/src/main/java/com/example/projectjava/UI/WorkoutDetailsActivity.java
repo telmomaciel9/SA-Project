@@ -29,6 +29,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity implements Exercis
     private RecyclerView exercisesRecyclerView;
     private ExercisesAdapter adapter;
     private String workoutId;
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +43,8 @@ public class WorkoutDetailsActivity extends AppCompatActivity implements Exercis
         textViewWorkoutDuration = findViewById(R.id.textViewWorkoutDuration);
         textViewWorkoutNotes = findViewById(R.id.textViewWorkoutNotes);
         exercisesRecyclerView = findViewById(R.id.exercisesRecyclerView);
+
+        bottomNavigationView = new BottomNavigationView(this, false);
 
         String workoutId = getIntent().getStringExtra("id");
         assert workoutId != null;

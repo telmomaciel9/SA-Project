@@ -36,6 +36,7 @@ public class WorkoutPremadeActivity extends AppCompatActivity implements Premade
     private Button btnSwitchFragment;
     private Button btnAddPremadeWorkout;
     private EditText editTextWorkoutName;
+    private BottomNavigationView bottomNavigationView;
     private DatabaseHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,8 @@ public class WorkoutPremadeActivity extends AppCompatActivity implements Premade
         btnAddPremadeWorkout = findViewById(R.id.btnAddPremadeWorkout);
         btnAddPremadeWorkout.setVisibility(View.INVISIBLE);
         editTextWorkoutName = findViewById(R.id.editTextWorkoutName);
+
+        bottomNavigationView = new BottomNavigationView(this, false);
 
         db = DatabaseHelper.getInstance();
 

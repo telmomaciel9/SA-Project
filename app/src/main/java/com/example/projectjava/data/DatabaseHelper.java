@@ -49,6 +49,7 @@ public class DatabaseHelper{
     private PremadeWorkout activePremadeWorkout;            // Active premade workout (a valid PremadeWorkout or null)
     private int premadeExerciseNr;                          // Tracks the current and next PremadeExercises in a PremadeWorkout
     private LocalDateTime activeWorkoutBeginDate;
+    private boolean isWorkoutActive;
     private FirebaseFirestore dbFirebase;
 
     public static synchronized DatabaseHelper getInstance() {
@@ -59,6 +60,7 @@ public class DatabaseHelper{
     }
 
     private DatabaseHelper() {
+        this.isWorkoutActive = false;
         this.exerciseDataList = null;
         this.activeWorkoutBeginDate = null;
         this.premadeExerciseList = null;
@@ -67,7 +69,16 @@ public class DatabaseHelper{
         this.dbFirebase = FirebaseFirestore.getInstance();
     }
 
+    public void setIsWorkoutActive(boolean value){
+        this.isWorkoutActive = value;
+    }
+
+    public boolean getIsWorkoutActive(){
+        return this.isWorkoutActive;
+    }
+
     public void setActivePremadeWorkout(PremadeWorkout pw){
+        this.isWorkoutActive = true;
         this.activeWorkoutBeginDate = LocalDateTime.now();
         this.activePremadeWorkout = pw;
         this.exerciseDataList = new ArrayList<>();
@@ -272,6 +283,7 @@ public class DatabaseHelper{
     }
 
     public void beginWorkout() {
+        this.isWorkoutActive = true;
         this.activeWorkoutBeginDate = LocalDateTime.now();
         this.exerciseDataList = new ArrayList<>();
     }
@@ -298,6 +310,7 @@ public class DatabaseHelper{
                 })
                 .addOnFailureListener(e -> Log.e("DatabaseHelper", "Error adding document", e));
         this.activeWorkoutBeginDate = null;
+        this.isWorkoutActive = false;
     }
 
     private void saveExercises(String workoutId) {

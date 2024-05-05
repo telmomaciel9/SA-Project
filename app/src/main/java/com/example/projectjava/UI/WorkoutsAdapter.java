@@ -17,7 +17,6 @@ import java.util.ArrayList;
 public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.WorkoutViewHolder> {
     private ArrayList<Workout> workouts;
     private OnItemClickListener listener;
-
     public WorkoutsAdapter(ArrayList<Workout> workouts, OnItemClickListener listener) {
         this.workouts = workouts;
         this.listener = listener;

@@ -19,6 +19,7 @@ public class EndWorkoutActivity extends AppCompatActivity {
     private EditText editTextWorkoutName;
     private EditText editTextNotes;
 
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +27,8 @@ public class EndWorkoutActivity extends AppCompatActivity {
         textViewWorkoutType = findViewById(R.id.textViewWorkoutType);
         editTextWorkoutName = findViewById(R.id.editTextWorkoutName);
         editTextNotes = findViewById(R.id.editTextNotes);
+        bottomNavigationView = new BottomNavigationView(this, false);
+
         DatabaseHelper db = DatabaseHelper.getInstance();
 
         boolean premade_workout = getIntent().getBooleanExtra("premade_workout", false);
@@ -56,6 +59,7 @@ public class EndWorkoutActivity extends AppCompatActivity {
         findViewById(R.id.btnCancelWorkout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                db.setIsWorkoutActive(false);
                 new AlertDialog.Builder(getApplicationContext())
                         .setTitle("Confirm cancellation.")
                         .setMessage("Are you sure you want to cancel the workout?")

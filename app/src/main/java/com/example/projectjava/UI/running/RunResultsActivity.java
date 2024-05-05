@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectjava.R;
+import com.example.projectjava.UI.BottomNavigationView;
 import com.example.projectjava.UI.EndWorkoutActivity;
 import com.example.projectjava.UI.MainActivity;
 import com.example.projectjava.UI.bench.BenchActivity;
@@ -38,6 +39,7 @@ public class RunResultsActivity extends AppCompatActivity implements OnMapReadyC
     private ArrayList<LatLng> pathPoints;
     private float maxVelocity, averageVelocity, distanceRan;
     private DatabaseHelper dh;
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,9 @@ public class RunResultsActivity extends AppCompatActivity implements OnMapReadyC
 
         dh = DatabaseHelper.getInstance();
         PremadeWorkout pw = dh.getActivePremadeWorkout();
+
+        bottomNavigationView = new BottomNavigationView(this, true);
+
         initViews(pw);
     }
 

@@ -60,14 +60,22 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="10dp"/>
 
+
     <Button
         android:id="@+id/btnGoBack"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:text="Go Back"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="10dp"/>
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.example.projectjava.UI.BottomNavigationView
+        android:id="@+id/bottom_navigation_view"
+        layout="@layout/bottom_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

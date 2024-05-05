@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectjava.R;
+import com.example.projectjava.UI.BottomNavigationView;
 import com.example.projectjava.UI.EndWorkoutActivity;
 import com.example.projectjava.UI.MainActivity;
 import com.example.projectjava.UI.PremadeExercisesAdapter;
@@ -30,6 +31,7 @@ public class BenchResultsActivity extends AppCompatActivity {
     private EditText editTextReps;
     private EditText editTextWeight;
     private DatabaseHelper dh;
+    private BottomNavigationView bottomNavigationView;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bench_results);
@@ -48,6 +50,8 @@ public class BenchResultsActivity extends AppCompatActivity {
                 "Mean acceleration: " + meanAcceleration + "\n";
 
         textViewBenchStats.setText(results);
+
+        bottomNavigationView = new BottomNavigationView(this, true);
 
         findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
             @Override

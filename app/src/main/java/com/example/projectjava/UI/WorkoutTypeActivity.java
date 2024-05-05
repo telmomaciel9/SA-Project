@@ -13,10 +13,14 @@ import com.example.projectjava.data.DatabaseHelper;
 
 public class WorkoutTypeActivity extends AppCompatActivity {
     private DatabaseHelper db;
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_type);
+
+        bottomNavigationView = new BottomNavigationView(this, false);
+
         db = DatabaseHelper.getInstance();
 
         findViewById(R.id.btnPremadeWorkout).setOnClickListener(new View.OnClickListener() {

@@ -11,10 +11,13 @@ import com.example.projectjava.UI.bench.BenchActivity;
 import com.example.projectjava.UI.overheadPress.OverheadPressActivity;
 
 public class ForcaActivity extends AppCompatActivity {
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forca);
+
+        bottomNavigationView = new BottomNavigationView(this, true);
 
         findViewById(R.id.btnBench).setOnClickListener(new View.OnClickListener() {
             @Override

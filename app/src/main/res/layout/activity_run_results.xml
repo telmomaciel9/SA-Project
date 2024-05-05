@@ -37,4 +37,10 @@
         android:layout_height="wrap_content"
         android:text="Go back to the exercises!"/>
 
+    <com.example.projectjava.UI.BottomNavigationView
+        android:id="@+id/bottom_navigation_view"
+        layout="@layout/bottom_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
 </LinearLayout>

@@ -17,7 +17,7 @@ public class WorkoutHistoryActivity extends AppCompatActivity implements Workout
     private RecyclerView recyclerView;
     private WorkoutsAdapter adapter;
     private DatabaseHelper databaseHelper;
-
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +25,8 @@ public class WorkoutHistoryActivity extends AppCompatActivity implements Workout
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        bottomNavigationView = new BottomNavigationView(this, false);
 
         databaseHelper = DatabaseHelper.getInstance();
         databaseHelper.getAllWorkouts(new DatabaseHelper.FirebaseFirestoreCallback() {

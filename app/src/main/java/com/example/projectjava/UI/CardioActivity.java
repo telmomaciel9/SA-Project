@@ -10,10 +10,14 @@ import com.example.projectjava.R;
 import com.example.projectjava.UI.running.RunActivity;
 
 public class CardioActivity extends AppCompatActivity {
+    private BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardio);
+
+        bottomNavigationView = new BottomNavigationView(this, true);
 
         findViewById(R.id.btnRun).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectjava.R;
 
+import com.example.projectjava.UI.BottomNavigationView;
 import com.example.projectjava.UI.Timer;
 
 public class OverheadPressActivity extends AppCompatActivity implements SensorEventListener {
@@ -25,7 +26,7 @@ public class OverheadPressActivity extends AppCompatActivity implements SensorEv
     private float maxAcceleration;
     private float meanAcceleration;
     private int nrAccelerations;
-
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,8 @@ public class OverheadPressActivity extends AppCompatActivity implements SensorEv
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        bottomNavigationView = new BottomNavigationView(this, true);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
