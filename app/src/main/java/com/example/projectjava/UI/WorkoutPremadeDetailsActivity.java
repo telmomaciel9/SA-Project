@@ -26,10 +26,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorkoutPremadeDetailsActivity extends AppCompatActivity {
+    private List<PremadeExercise> premade_exercises;
     private TextView tvPremadeWorkoutName;
     private RecyclerView rvPremadeExercises;
     private PremadeExercisesAdapter adapter;
     private Button btnBeginPremadeWorkout;
+    private Button btnSharePremadeWorkout;
     private DatabaseHelper db;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,7 @@ public class WorkoutPremadeDetailsActivity extends AppCompatActivity {
         tvPremadeWorkoutName = findViewById(R.id.tvPremadeWorkoutName);
         rvPremadeExercises = findViewById(R.id.rvPremadeExercises);
         btnBeginPremadeWorkout = findViewById(R.id.btnBeginPremadeWorkout);
+        btnSharePremadeWorkout = findViewById(R.id.btnSharePremadeWorkout);
 
         db = DatabaseHelper.getInstance();
 
@@ -66,6 +69,7 @@ public class WorkoutPremadeDetailsActivity extends AppCompatActivity {
 
         db.getPremadeWorkoutExercises(pw.getId()).addOnSuccessListener(exercises -> {
             if(exercises != null){
+                premade_exercises = exercises;
                 adapter = new PremadeExercisesAdapter(exercises);
                 rvPremadeExercises.setAdapter(adapter);
             } else {
@@ -100,6 +104,30 @@ public class WorkoutPremadeDetailsActivity extends AppCompatActivity {
                         System.out.println("Invalid premade exercise name!");
                         break;
                 }
+            }
+        });
+
+        btnSharePremadeWorkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+
+                // change the type of data you need to share,
+                // for image use "image/*"
+                intent.setType("text/plain");
+
+                int count = 1;
+                String text_to_share = pw.getWorkout_name() + "\n";
+                for(PremadeExercise pe: premade_exercises){
+                    text_to_share += "\t" + count + ". " + pe.share() + "\n";
+                    count++;
+                }
+                text_to_share += "\n\nBuilt with the FitTracker app!";
+
+
+                intent.putExtra(Intent.EXTRA_TEXT, text_to_share);
+                startActivity(Intent.createChooser(intent, "Share"));
             }
         });
     }

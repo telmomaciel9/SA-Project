@@ -32,4 +32,5 @@ public abstract class PremadeExercise {
     public abstract Map<String, Object> toMap();
     public abstract Map<String, Float> getMetrics();
     public abstract int getSets();
+    public abstract String share();
 }

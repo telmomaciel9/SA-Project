@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectjava.R;
@@ -52,15 +53,24 @@ public class EndWorkoutActivity extends AppCompatActivity {
             }
         });
 
-        // Cancel workout by not saving it
         findViewById(R.id.btnCancelWorkout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                mNotificationManager.cancel(1);
-
-                startActivity(new Intent(EndWorkoutActivity.this, BeginningActivity.class));
+                new AlertDialog.Builder(getApplicationContext())
+                        .setTitle("Confirm cancellation.")
+                        .setMessage("Are you sure you want to cancel the workout?")
+                        .setPositiveButton("Yes", (dialog, id) -> cancelWorkout())
+                        .setNegativeButton("No", (dialog, id) -> dialog.dismiss())
+                        .show();
             }
         });
+    }
+
+    // Cancel workout by not saving it
+    public void cancelWorkout(){
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(1);
+
+        startActivity(new Intent(EndWorkoutActivity.this, BeginningActivity.class));
     }
 }

@@ -43,4 +43,7 @@ public class PremadeBenchExercise extends PremadeExercise {
     public int getSets(){
         return this.sets;
     }
+    public String share(){
+        return super.getExerciseName() + ": " + sets + " X " + reps;
+    }
 }

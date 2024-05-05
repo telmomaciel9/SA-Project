@@ -43,4 +43,8 @@ public class PremadeRunningExercise extends PremadeExercise {
     public int getSets(){
         return 1;
     }
+
+    public String share(){
+        return super.getExerciseName() + ": " + distance + "m; " + avg_velocity + "m/s";
+    }
 }
