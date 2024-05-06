@@ -14,11 +14,9 @@ import com.example.projectjava.R;
 
 public class BottomNavigationView extends LinearLayout {
     private Context context;
-    private boolean home_warning;
-    public BottomNavigationView(Context context, boolean home_warning) {
+    public BottomNavigationView(Context context) {
         super(context);
         this.context = context;
-        this.home_warning = home_warning;
         init();
     }
 
@@ -41,16 +39,7 @@ public class BottomNavigationView extends LinearLayout {
         view.findViewById(R.id.ibHome).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(home_warning){
-                    new AlertDialog.Builder(context)
-                            .setTitle("Confirm")
-                            .setMessage("If you go to the home page you won't be able to resume the workout! Proceed?")
-                            .setPositiveButton("Yes", (dialog, id) -> {context.startActivity(new Intent(context, BeginningActivity.class));})
-                            .setNegativeButton("No", (dialog, id) -> dialog.dismiss())
-                            .show();
-                }else{
-                    context.startActivity(new Intent(context, BeginningActivity.class));
-                }
+                context.startActivity(new Intent(context, BeginningActivity.class));
             }
         });
 

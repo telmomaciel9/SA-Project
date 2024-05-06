@@ -42,7 +42,7 @@ public class OverheadPressActivity extends AppCompatActivity implements SensorEv
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        bottomNavigationView = new BottomNavigationView(this, true);
+        bottomNavigationView = new BottomNavigationView(this);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override

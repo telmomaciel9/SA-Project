@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNavigationView = new BottomNavigationView(this, true);
+        bottomNavigationView = new BottomNavigationView(this);
 
         findViewById(R.id.btnCardio).setOnClickListener(new View.OnClickListener() {
             @Override

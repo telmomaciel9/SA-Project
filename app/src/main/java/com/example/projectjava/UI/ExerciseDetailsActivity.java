@@ -44,7 +44,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
         exerciseTitle = findViewById(R.id.textViewExerciseTitle);
         exerciseStats = findViewById(R.id.textViewExerciseStats);
         btnTableGraph = findViewById(R.id.btnTableGraph);
-        bottomNavigationView = new BottomNavigationView(this, false);
+        bottomNavigationView = new BottomNavigationView(this);
 
         db = DatabaseHelper.getInstance();
         String exerciseId = getIntent().getStringExtra("exerciseId");

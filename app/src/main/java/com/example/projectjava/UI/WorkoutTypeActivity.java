@@ -19,7 +19,7 @@ public class WorkoutTypeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_type);
 
-        bottomNavigationView = new BottomNavigationView(this, false);
+        bottomNavigationView = new BottomNavigationView(this);
 
         db = DatabaseHelper.getInstance();
 

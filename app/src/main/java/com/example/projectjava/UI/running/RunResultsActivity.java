@@ -48,7 +48,7 @@ public class RunResultsActivity extends AppCompatActivity implements OnMapReadyC
         dh = DatabaseHelper.getInstance();
         PremadeWorkout pw = dh.getActivePremadeWorkout();
 
-        bottomNavigationView = new BottomNavigationView(this, true);
+        bottomNavigationView = new BottomNavigationView(this);
 
         initViews(pw);
     }
@@ -104,7 +104,7 @@ public class RunResultsActivity extends AppCompatActivity implements OnMapReadyC
         }else{
             dh.getPremadeWorkoutExercises(pw.getId()).addOnSuccessListener(premade_exercises -> {
                 if(premade_exercises != null){
-                    PremadeExercise pe = dh.getNextPremadeExercise(premade_exercises);
+                    PremadeExercise pe = dh.getNextPremadeExercise(premade_exercises, true);
                     if(pe != null){
                         switch (pe.getExerciseName()){
                             case "Bench Press":
@@ -124,7 +124,7 @@ public class RunResultsActivity extends AppCompatActivity implements OnMapReadyC
                         // dh.endPremadeWorkout();
                         Intent intent = new Intent(RunResultsActivity.this, EndWorkoutActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.putExtra("premade_workout", true);
+                        intent.putExtra("premade_workout_ended", true);
                         startActivity(intent);
                     }
                 } else {

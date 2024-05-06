@@ -51,7 +51,7 @@ public class OverheadPressResultsActivity extends AppCompatActivity {
 
         textViewOHPStats.setText(results);
 
-        bottomNavigationView = new BottomNavigationView(this, true);
+        bottomNavigationView = new BottomNavigationView(this);
 
         findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +118,7 @@ public class OverheadPressResultsActivity extends AppCompatActivity {
         }else{
             dh.getPremadeWorkoutExercises(pw.getId()).addOnSuccessListener(premade_exercises -> {
                 if(premade_exercises != null){
-                    PremadeExercise pe = dh.getNextPremadeExercise(premade_exercises);
+                    PremadeExercise pe = dh.getNextPremadeExercise(premade_exercises, true);
                     if(pe != null){
                         switch (pe.getExerciseName()){
                             case "Bench Press":
@@ -138,7 +138,7 @@ public class OverheadPressResultsActivity extends AppCompatActivity {
                         // dh.endPremadeWorkout();
                         Intent intent = new Intent(OverheadPressResultsActivity.this, EndWorkoutActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.putExtra("premade_workout", true);
+                        intent.putExtra("premade_workout_ended", true);
                         startActivity(intent);
                     }
                 } else {

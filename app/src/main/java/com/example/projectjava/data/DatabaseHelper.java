@@ -88,9 +88,11 @@ public class DatabaseHelper{
         return this.activePremadeWorkout;
     }
 
-    public PremadeExercise getNextPremadeExercise(List<PremadeExercise> exercises){
+    public PremadeExercise getNextPremadeExercise(List<PremadeExercise> exercises, boolean skipExercise){
         PremadeExercise pe = null;
-        this.premadeExerciseNr++;
+        if(skipExercise){
+            this.premadeExerciseNr++;
+        }
 
         int count = 0;
         for(PremadeExercise pes: exercises){

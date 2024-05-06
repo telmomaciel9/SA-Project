@@ -43,7 +43,7 @@ public class WorkoutPremadeDetailsActivity extends AppCompatActivity {
         btnBeginPremadeWorkout = findViewById(R.id.btnBeginPremadeWorkout);
         btnSharePremadeWorkout = findViewById(R.id.btnSharePremadeWorkout);
 
-        bottomNavigationView = new BottomNavigationView(this, false);
+        bottomNavigationView = new BottomNavigationView(this);
 
         db = DatabaseHelper.getInstance();
 

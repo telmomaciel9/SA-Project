@@ -63,7 +63,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         buttonFinishRun = findViewById(R.id.buttonFinishRun);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
-        bottomNavigationView = new BottomNavigationView(this, true);
+        bottomNavigationView = new BottomNavigationView(this);
 
         initializeActivity();
     }

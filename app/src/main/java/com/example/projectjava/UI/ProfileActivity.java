@@ -46,7 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnUploadPic = findViewById(R.id.btnUploadPic);
         btnSaveChanges = findViewById(R.id.btnSaveChanges);
 
-        bottomNavigationView = new BottomNavigationView(this, false);
+        bottomNavigationView = new BottomNavigationView(this);
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
@@ -59,7 +59,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
             if(user.getDisplayName() != null && !user.getDisplayName().isEmpty()){
-                editTextUserName.setHint(user.getDisplayName());
+                editTextUserName.setText(user.getDisplayName());
             }
         }
 
@@ -73,22 +73,24 @@ public class ProfileActivity extends AppCompatActivity {
         btnSaveChanges.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                user.updateProfile(new UserProfileChangeRequest.Builder()
-                                .setPhotoUri(profilePicUri)
-                                .setDisplayName(editTextUserName.getText().toString())
-                                .build()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toast.makeText(ProfileActivity.this, "Changes saved successfully!", Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        // Failed to update photo URL
-                                        Toast.makeText(ProfileActivity.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                if(user != null){
+                    user.updateProfile(new UserProfileChangeRequest.Builder()
+                                    .setPhotoUri(profilePicUri)
+                                    .setDisplayName(editTextUserName.getText().toString())
+                                    .build()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(ProfileActivity.this, "Changes saved successfully!", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Failed to update photo URL
+                                    Toast.makeText(ProfileActivity.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
             }
         });
     }

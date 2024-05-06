@@ -49,7 +49,7 @@ public class WorkoutPremadeActivity extends AppCompatActivity implements Premade
         btnAddPremadeWorkout.setVisibility(View.INVISIBLE);
         editTextWorkoutName = findViewById(R.id.editTextWorkoutName);
 
-        bottomNavigationView = new BottomNavigationView(this, false);
+        bottomNavigationView = new BottomNavigationView(this);
 
         db = DatabaseHelper.getInstance();
 

@@ -34,7 +34,7 @@ public class BeginningActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beginning);
 
-        bottomNavigationView = new BottomNavigationView(this, false);
+        bottomNavigationView = new BottomNavigationView(this);
 
         auth = FirebaseAuth.getInstance();
         db = DatabaseHelper.getInstance();
@@ -43,7 +43,9 @@ public class BeginningActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(db.getIsWorkoutActive()){
-                    Toast.makeText(BeginningActivity.this, "You need to end the current workout to start another!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(BeginningActivity.this, EndWorkoutActivity.class);
+                    intent.putExtra("warning", true);
+                    startActivity(intent);
                 }else{
                     startActivity(new Intent(BeginningActivity.this, WorkoutTypeActivity.class));
                 }

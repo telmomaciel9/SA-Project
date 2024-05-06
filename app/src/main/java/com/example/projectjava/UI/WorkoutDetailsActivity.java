@@ -44,7 +44,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity implements Exercis
         textViewWorkoutNotes = findViewById(R.id.textViewWorkoutNotes);
         exercisesRecyclerView = findViewById(R.id.exercisesRecyclerView);
 
-        bottomNavigationView = new BottomNavigationView(this, false);
+        bottomNavigationView = new BottomNavigationView(this);
 
         String workoutId = getIntent().getStringExtra("id");
         assert workoutId != null;

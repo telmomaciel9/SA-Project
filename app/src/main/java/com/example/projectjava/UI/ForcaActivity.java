@@ -17,7 +17,7 @@ public class ForcaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forca);
 
-        bottomNavigationView = new BottomNavigationView(this, true);
+        bottomNavigationView = new BottomNavigationView(this);
 
         findViewById(R.id.btnBench).setOnClickListener(new View.OnClickListener() {
             @Override
