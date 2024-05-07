@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -46,17 +47,9 @@
         <activity android:name=".UI.WorkoutPremadeActivity"/>
         <activity android:name=".UI.WorkoutTypeActivity"/>
         <activity android:name=".UI.ProfileActivity"/>
-        <activity android:name=".UI.BeginningActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+        <activity android:name=".UI.BeginningActivity"/>
         <activity android:name=".UI.auth.RegisterActivity"/>
         <activity android:name=".UI.auth.LoginActivity"/>
-        <activity android:name=".UI.auth.AuthenticationActivity"/>
-        <!--
         <activity android:name=".UI.auth.AuthenticationActivity"
                   android:exported="true">
             <intent-filter>
@@ -64,6 +57,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        -->
     </application>
 </manifest>
