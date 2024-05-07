@@ -6,6 +6,5 @@
         <item name="colorPrimary">@color/theme_color</item>
         <item name="android:statusBarColor">@color/theme_color</item>
     </style>
-
     <style name="Theme.ProjectJava" parent="Base.Theme.ProjectJava" />
 </resources>
