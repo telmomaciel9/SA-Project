@@ -21,7 +21,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include2"/>
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPremadeWorkouts"
         android:layout_width="match_parent"
@@ -31,58 +30,69 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         android:layout_marginHorizontal="20dp"/>
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginHorizontal="10dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation_view"
-        tools:layout_editor_absoluteX="20dp"
-        android:background="@color/cardview_dark_background"
-        android:elevation="10dp">
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="30dp"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view"
+        app:layout_constraintTop_toBottomOf="@id/recyclerViewPremadeWorkouts"
+        tools:layout_editor_absoluteX="20dp">
 
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Add a new premade workout!"
-            android:textSize="20sp"/>
+            android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerView2">
-
-            <EditText
-                android:id="@+id/editTextWorkoutName"
-                android:layout_width="200dp"
+            <TextView
+                android:id="@+id/tvText"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:hint="Workout name."/>
+                android:text="Add a new premade workout!"
+                android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <FrameLayout
+                android:id="@+id/flNameList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tvText"
+                android:layout_margin="5dp">
+
+                <EditText
+                    android:id="@+id/editTextWorkoutName"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Workout name." />
+
+                <Button
+                    android:id="@+id/btnSwitchFragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="List"
+                    android:layout_gravity="end"/>
+            </FrameLayout>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/btnAddPremadeWorkout"
+                app:layout_constraintTop_toBottomOf="@id/flNameList" />
 
             <Button
-                android:id="@+id/btnSwitchFragment"
+                android:id="@+id/btnAddPremadeWorkout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="List" />
-        </LinearLayout>
+                android:text="Add Workout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_margin="10dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="150dp" />
-
-        <Button
-            android:id="@+id/btnAddPremadeWorkout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="200dp"
-            android:layout_marginRight="10dp"
-            android:text="Add Workout" />
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <com.example.projectjava.UI.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
@@ -90,5 +100,4 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

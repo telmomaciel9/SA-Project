@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 
 public class AddPremadeExerciseFragment extends Fragment {
     private DatabaseHelper db;
-    private LinearLayout linearContainer;
+    private FrameLayout frameLayoutContainer;
     private Spinner spinner;
     private EditText editTextAttribute1;
     private EditText editTextAttribute2;
@@ -40,7 +40,7 @@ public class AddPremadeExerciseFragment extends Fragment {
 
         db = DatabaseHelper.getInstance();
 
-        linearContainer = view.findViewById(R.id.linearContainer);
+        frameLayoutContainer = view.findViewById(R.id.frameLayoutContainer);
         spinner = view.findViewById(R.id.spinnerExerciseType);
 
         editTextAttribute1 = view.findViewById(R.id.editTextAttribute1);

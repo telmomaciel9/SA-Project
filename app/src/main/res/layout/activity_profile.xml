@@ -53,26 +53,26 @@
             android:textSize="30sp"/>
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="10dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view">
 
         <Button
             android:id="@+id/btnUploadPic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upload picture"/>
+            android:text="Upload picture"
+            android:layout_margin="10dp"/>
 
         <Button
             android:id="@+id/btnSaveChanges"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save changes"
-            android:layout_marginLeft="80dp"/>
-    </LinearLayout>
+            android:layout_gravity="end"
+            android:layout_margin="10dp"/>
+    </FrameLayout>
 
     <com.example.projectjava.UI.BottomNavigationView
         android:id="@+id/bottom_navigation_view"

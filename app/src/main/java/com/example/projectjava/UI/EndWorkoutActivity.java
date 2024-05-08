@@ -62,6 +62,10 @@ public class EndWorkoutActivity extends AppCompatActivity {
             btnResumeWorkout.setEnabled(false); // Premade workouts that ended can't continue
         }
 
+        setupButtons(pw);
+    }
+
+    public void setupButtons(PremadeWorkout pw){
         findViewById(R.id.btnResumeWorkout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,7 +117,7 @@ public class EndWorkoutActivity extends AppCompatActivity {
         findViewById(R.id.btnCancelWorkout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(getApplicationContext())
+                new AlertDialog.Builder(EndWorkoutActivity.this)
                         .setTitle("Confirm cancellation.")
                         .setMessage("Are you sure you want to cancel the workout?")
                         .setPositiveButton("Yes", (dialog, id) -> cancelWorkout())

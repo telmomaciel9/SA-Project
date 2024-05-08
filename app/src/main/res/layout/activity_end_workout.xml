@@ -56,28 +56,26 @@
             android:text="Resume Workout"/>
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view">
 
-        <Button
-            android:id="@+id/btnSaveWorkout"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Save Workout" />
+            <Button
+                android:id="@+id/btnSaveWorkout"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Save Workout" />
 
-        <Button
-            android:id="@+id/btnCancelWorkout"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:text="Cancel Workout" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/btnCancelWorkout"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="10dp"
+                android:text="Cancel Workout" />
+    </FrameLayout>
 
     <com.example.projectjava.UI.BottomNavigationView
         android:id="@+id/bottom_navigation_view"

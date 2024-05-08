@@ -25,30 +25,29 @@
         android:id="@+id/rvPremadeExercises"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPremadeWorkoutName"
         android:layout_margin="20dp"/>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation_view"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="20dp">
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view">
 
         <Button
             android:id="@+id/btnSharePremadeWorkout"
-            android:layout_width="130dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Share"/>
+            android:text="Share"
+            android:layout_margin="10dp"/>
 
         <Button
             android:id="@+id/btnBeginPremadeWorkout"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Begin workout"
-            android:layout_marginLeft="30dp"/>
-    </LinearLayout>
+            android:layout_gravity="end"
+            android:layout_margin="10dp"/>
+    </FrameLayout>
 
     <com.example.projectjava.UI.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
