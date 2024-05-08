@@ -46,6 +46,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
     private float maxVelocity;
     private GoogleMap map;
     private ArrayList<LatLng> points; // List of points on the map
+    private ArrayList<Float> speeds; // List of speeds
 
     // Runnable to update the timer TextView
     private Runnable timerRunnable;
@@ -74,6 +75,7 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         totalDistance = 0;
         maxVelocity = 0;
         points = new ArrayList<>();
+        speeds = new ArrayList<>();
 
         // Reset UI components
         textViewTimer.setText("00:00:00");
@@ -124,15 +126,21 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             Location lastLocation = null;
+            final int minAccuracyMeters = 8; // Set minimum accuracy to 8 meters
 
             @Override
             public void onLocationChanged(Location location) {
-                //super.onLocationChanged(location);
+                // avoid updating when the location updates are inaccurate
+                if (location.getAccuracy() > minAccuracyMeters) {
+                    // Ignore locations that do not meet accuracy requirements
+                    return;
+                }
                 updateMap(location); // Update the map with the new location
                 if (lastLocation != null && location != null) {
                     float distance = location.distanceTo(lastLocation);
                     totalDistance += distance;
                     float speed = location.getSpeed();
+                    speeds.add(speed);
                     if (speed > maxVelocity) {
                         maxVelocity = speed;
                     }
@@ -221,7 +229,10 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Calculate the stats
         long totalTime = System.currentTimeMillis() - startTime;
-        float averageVelocity = totalDistance / (totalTime / 1000f); // totalTime is in milliseconds
+        //float averageVelocity = totalDistance / (totalTime / 1000f); // totalTime is in milliseconds
+        float total_speeds = 0;
+        for (float speed: speeds) total_speeds += speed;
+        float averageVelocity = total_speeds / speeds.size(); // totalTime is in milliseconds
 
         // Create an Intent to start RunResultsActivity
         Intent intent = new Intent(RunActivity.this, RunResultsActivity.class);
