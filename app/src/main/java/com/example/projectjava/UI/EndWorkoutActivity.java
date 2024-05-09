@@ -110,6 +110,7 @@ public class EndWorkoutActivity extends AppCompatActivity {
 
                 db.finishWorkout(type, notes, workout_name);
                 db.endPremadeWorkout();
+                Toast.makeText(getApplicationContext(), "Workout saved!", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(EndWorkoutActivity.this, BeginningActivity.class));
             }
         });

@@ -92,23 +92,25 @@ public class GraphFragment extends Fragment {
     }
 
     public void loadGraph(ExerciseData exercise) {
-        List<DataPoint> dataPoints = new ArrayList<>();
         series.resetData(new DataPoint[]{});
 
         db.getExercisesByType(exercise).addOnSuccessListener(exercises -> {
             if (exercises != null) {
-                float count = 1;
+                // Get the 5 last exercises for this type
+                exercises = exercises.subList(Math.max(exercises.size() - 5, 0), exercises.size());
+
+                int count = 1;
                 for (ExerciseData ex : exercises) {
-                    System.out.println("Exercise details: " + ex.getTimeStamp());
+                    System.out.println("Graph fragment: " + ex.getExerciseMetrics("Weight"));
                     series.appendData(new DataPoint(count, ex.getExerciseMetrics(selectedY)), false, 5);
                     count++;
                 }
 
                 graphView.addSeries(series);
                 graphView.setTitle(selectedY + " progress along time.");
-                //graphView.getViewport().setYAxisBoundsManual(true);
-                //graphView.getViewport().setMinY(0);
-                //graphView.getViewport().setMaxY(exercises.get(exercises.size() - 1).getExerciseMetrics(selectedY) + 5);
+                graphView.getViewport().setYAxisBoundsManual(true);
+                graphView.getViewport().setMinX(1);
+                graphView.getViewport().setMaxX(5);
             } else {
                 Log.e("ExerciseDetails", "Problema ao exercícios por nome: " + exercise.getExerciseName());
             }

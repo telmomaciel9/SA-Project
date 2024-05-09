@@ -3,6 +3,9 @@ package com.example.projectjava.data;
 import android.text.format.Time;
 import android.util.Log;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.example.projectjava.UI.ExercisesAdapter;
 import com.example.projectjava.data.defaultExercises.BenchExerciseData;
 import com.example.projectjava.data.defaultExercises.OverheadPressExerciseData;
 import com.example.projectjava.data.defaultExercises.RunningExerciseData;
@@ -310,24 +313,29 @@ public class DatabaseHelper{
                     Log.w("DatabaseHelper", "Sucessfully added workout");
                     saveExercises(workoutId);
                 })
-                .addOnFailureListener(e -> Log.e("DatabaseHelper", "Error adding document", e));
+                .addOnFailureListener(e -> Log.e("DatabaseHelper", "Error adding document"));
         this.activeWorkoutBeginDate = null;
         this.isWorkoutActive = false;
     }
 
     private void saveExercises(String workoutId) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (exerciseDataList == null || exerciseDataList.isEmpty()) {
             Log.w("DatabaseHelper", "No exercises to save");
             return;
         }
-        for (ExerciseData ed: exerciseDataList) {
-            Map<String, Object> exercise = ed.toMap(); // Assuming ExerciseData has a method to convert to Map
-            exercise.put("workoutId", workoutId); // Add workout reference
 
-            dbFirebase.collection(exercises_table_name)
-                    .add(exercise)
-                    .addOnSuccessListener(documentReference -> Log.d("DatabaseHelper", "Exercise saved with ID: " + documentReference.getId()))
-                    .addOnFailureListener(e -> Log.w("DatabaseHelper", "Error adding exercise document", e));
+        if(user != null){
+            for (ExerciseData ed: exerciseDataList) {
+                Map<String, Object> exercise = ed.toMap(); // Assuming ExerciseData has a method to convert to Map
+                exercise.put("workoutId", workoutId); // Add workout reference
+                exercise.put("userId", user.getUid());
+
+                dbFirebase.collection(exercises_table_name)
+                        .add(exercise)
+                        .addOnSuccessListener(documentReference -> Log.d("DatabaseHelper", "Exercise saved with ID: " + documentReference.getId()))
+                        .addOnFailureListener(e -> Log.w("DatabaseHelper", "Error adding exercise document", e));
+            }
         }
     }
 
@@ -520,7 +528,7 @@ public class DatabaseHelper{
         // need to check if current user id is the same as the user id in the given workout
 
         // Reference to the 'exercises' collection filtered by workoutId
-        Query query = dbFirebase.collection("exercises");
+        Query query = dbFirebase.collection(exercises_table_name).whereEqualTo("userId", currentUser.getUid());
 
         Task<List<ExerciseData>> exercisesTask = query.get().continueWith(task -> {
             List<ExerciseData> exercises = new ArrayList<>();
@@ -572,5 +580,4 @@ public class DatabaseHelper{
         });
         return exercisesTask;
     }
-
 }
