@@ -1,5 +1,8 @@
 package com.example.projectjava.UI;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -32,7 +35,6 @@ public class GraphFragment extends Fragment {
     private Spinner ySpinner;
     private String selectedY;
     private LineGraphSeries<DataPoint> series;
-    private Button btnTableGraph;
     private DatabaseHelper db;
     private ExerciseData exercise;
     @Override
@@ -50,6 +52,7 @@ public class GraphFragment extends Fragment {
         ySpinner = view.findViewById(R.id.ySpinner);
         selectedY = null;
         series = new LineGraphSeries<>();
+        series.setColor(Color.GREEN);
 
         Bundle args = getArguments();
         String exerciseId = "";
@@ -96,21 +99,20 @@ public class GraphFragment extends Fragment {
 
         db.getExercisesByType(exercise).addOnSuccessListener(exercises -> {
             if (exercises != null) {
-                // Get the 5 last exercises for this type
-                exercises = exercises.subList(Math.max(exercises.size() - 5, 0), exercises.size());
-
                 int count = 1;
+                int nrDataPoints = exercises.size();
+
                 for (ExerciseData ex : exercises) {
                     System.out.println("Graph fragment: " + ex.getExerciseMetrics("Weight"));
-                    series.appendData(new DataPoint(count, ex.getExerciseMetrics(selectedY)), false, 5);
+                    series.appendData(new DataPoint(count, ex.getExerciseMetrics(selectedY)), false, nrDataPoints);
                     count++;
                 }
 
                 graphView.addSeries(series);
                 graphView.setTitle(selectedY + " progress along time.");
-                graphView.getViewport().setYAxisBoundsManual(true);
+                graphView.getViewport().setXAxisBoundsManual(true);
                 graphView.getViewport().setMinX(1);
-                graphView.getViewport().setMaxX(5);
+                graphView.getViewport().setMaxX(nrDataPoints);
             } else {
                 Log.e("ExerciseDetails", "Problema ao exercícios por nome: " + exercise.getExerciseName());
             }

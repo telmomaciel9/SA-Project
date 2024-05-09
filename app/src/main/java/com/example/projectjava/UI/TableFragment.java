@@ -62,7 +62,6 @@ public class TableFragment extends Fragment {
         }else{
             System.out.println("Não passou o exerciseId");
         }
-
         return view;
     }
 
