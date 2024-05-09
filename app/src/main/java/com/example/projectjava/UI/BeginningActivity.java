@@ -20,6 +20,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.projectjava.R;
+import com.example.projectjava.UI.auth.AuthenticationActivity;
 import com.example.projectjava.UI.auth.LoginActivity;
 import com.example.projectjava.data.DatabaseHelper;
 import com.example.projectjava.data.PremadeWorkout;
@@ -62,10 +63,14 @@ public class BeginningActivity extends AppCompatActivity {
         findViewById(R.id.btnLogout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(getApplicationContext())
+                new AlertDialog.Builder(BeginningActivity.this)
                         .setTitle("Confirm Logout")
                         .setMessage("Are you sure you want to log off your account?")
-                        .setPositiveButton("Yes", (dialog, id) -> {auth.signOut(); db.setIsWorkoutActive(false);})
+                        .setPositiveButton("Yes", (dialog, id) -> {
+                            auth.signOut();
+                            db.setIsWorkoutActive(false);
+                            startActivity(new Intent(BeginningActivity.this, AuthenticationActivity.class));
+                        })
                         .setNegativeButton("No", (dialog, id) -> dialog.dismiss())
                         .show();
             }
