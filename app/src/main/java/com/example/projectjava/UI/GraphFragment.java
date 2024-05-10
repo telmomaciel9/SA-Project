@@ -52,7 +52,7 @@ public class GraphFragment extends Fragment {
         ySpinner = view.findViewById(R.id.ySpinner);
         selectedY = null;
         series = new LineGraphSeries<>();
-        series.setColor(Color.GREEN);
+        series.setColor(Color.parseColor("#BC50B2"));
 
         Bundle args = getArguments();
         String exerciseId = "";
